@@ -68,7 +68,7 @@ classdef tilthexSimulator < handle
             scatter3(obj.world_axe_handle, 0, 0, 0, 25, 'filled');
             set(obj.world_axe_handle, 'DataAspectRatio', [1 1 1], 'DataAspectRatioMode', 'manual');
             set(obj.world_axe_handle, 'XLimMode', 'manual', 'YLimMode', 'manual', 'ZLimMode', 'manual');
-            set(obj.world_axe_handle, 'XLim', [-1.5 1.5], 'YLim', [-1.5 1.5], 'ZLim', [-1 1]);
+            set(obj.world_axe_handle, 'XLim', [-5.5 5.5], 'YLim', [-5.5 5.5], 'ZLim', [-5 5]);
             set(obj.world_axe_handle, 'NextPlot', 'add');
 
             % Create a quadrotor
@@ -78,7 +78,6 @@ classdef tilthexSimulator < handle
             % Each time the simulaton runs, the time increases by time_step
             obj.time = 0;
             obj.time_step = sim_settings.time_step;
-
 
 %             % Initialize the frequencies for different events
 %             obj.imu_freq          = algo_settings.imu_freq;

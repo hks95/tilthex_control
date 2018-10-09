@@ -3,9 +3,15 @@ function [ ] = drawTilthex( obj )
 %
 %
 
+% convert FRD to XYZ
+R1 = [cosd(90) sind(90) 0;-sind(90) cosd(90) 0;0 0 1];
+R2 = [cosd(180) 0 sind(180);0 1 0;-sind(180) 0 cosd(180)];
+Rt = R1*R2;
+
 % The orientation and translation of the body frame
 R = obj.state.R;
 t = obj.state.position;
+t = Rt*t; %convert to XYZ while drawing, dynamics is in FRD
 
 % Find the cooridnates of the end points of the 4 links in the inertial
 % frame
@@ -23,11 +29,6 @@ set(obj.link3,'Parent',obj.world_axes_handle,'XData',[t(1) end_point3(1)], 'YDat
 set(obj.link4,'Parent',obj.world_axes_handle,'XData',[t(1) end_point4(1)], 'YData', [t(2) end_point4(2)], 'ZData', [t(3) end_point4(3)], 'visible','on');
 set(obj.link5,'Parent',obj.world_axes_handle,'XData',[t(1) end_point5(1)], 'YData', [t(2) end_point5(2)], 'ZData', [t(3) end_point5(3)], 'visible','on');
 set(obj.link6,'Parent',obj.world_axes_handle,'XData',[t(1) end_point6(1)], 'YData', [t(2) end_point6(2)], 'ZData', [t(3) end_point6(3)], 'visible','on');
-
-% convert FRD to XYZ
-R1 = [cosd(90) sind(90) 0;-sind(90) cosd(90) 0;0 0 1];
-R2 = [cosd(180) 0 sind(180);0 1 0;-sind(180) 0 cosd(180)];
-Rt = R1*R2;
 
 % update rotors
 rotor_end_point1 = R *Rt*obj.rotor1 * obj.z_axis_rotor1 + end_point1;

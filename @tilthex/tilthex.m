@@ -93,9 +93,6 @@ classdef tilthex < handle
             link_len = hex_settings.link_len*cosd(15); %dihedral angle = 15
             link_z = hex_settings.link_len*sind(15);
             
-%           R1 = [cosd(90) -sind(90) 0;sind(90) cosd(90) 0;0 0 1];
-%           R2 = [cosd(180) 0 -sind(180);0 1 0;sind(180) 0 cosd(180)];
-%           R = R1*R2;
             R = 1;
             
             % wrt to XYZ
@@ -155,9 +152,9 @@ classdef tilthex < handle
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % @brief: Compute the state of the quadrotor at the new time instance
         % @param dt   : time interval
-        % @param input: contains torque and thrust
+        % @param input: contains 6 rotor speeds
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%         [ ] = dynamics( obj, dt, input )
+        [ ] = tilthex_dynamics( obj, dt, input )
 
 
         function [ ] = delete( obj )
