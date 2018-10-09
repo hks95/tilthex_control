@@ -3,10 +3,6 @@ clear;
 close all;
 rng('default');
 
-
-%% Settings for the simulator
-% load ./data/features.mat;
-
 %% Initialization
 tilthex_sim_init;
 N = 13000;

@@ -2,66 +2,26 @@ classdef tilthexSimulator < handle
 
     properties
 
-        features               % 3-by-m matrix, 3d coordinates for the features
-        feature_colors         % 3-by-m matrix, colors for the features
-
-        robot                  % object of the class QUADROTOR
+        robot                  % object of the class tilthex
 
         world_fig_handle       % figure handle, contains world_axe_handle
         world_axe_handle       % axes handle,   contains the plot of features, the quadrobtor
-         image_fig_handle       % figure handle, contains image_axe_handle
-        image_axe_handle       % axes handle,   contains the captured image of the camera installed on the quadrotor
-
 
         time                   % scalar, current time
         time_step              % scalar, time step of the simulation
-
-
-        imu_freq               % scalar, frequency of imu data measurement
-        cam_freq               % scalar, frequency of image capturing
-        state_est_freq         % scalar, frequency of state estimation
-        atti_control_freq      % scalar, frequency of attitude control
-        pos_control_freq       % scalar, frequency of position control
-        traj_plan_freq         % scalar, frequency of trajectory planning
-
-
-        imu_timer              % scalar, timer for IMU data measurement, recording how long has past since last IMU measurement
-        cam_timer              % scalar, timer for camera
-        state_est_timer        % scalar, timer for state estimation event
-        atti_control_timer     % scalar, timer for attitude control event
-        pos_control_timer      % scalar, timer for position control event
-        traj_plan_timer        % scalar, timer for trajectory planning
-
-
-        imu_measurement        % struct, record the imu data
-        cam_measurement        % struct, record the camera data
-        curr_state             % struct, record the estimated state from the state estimation algorithm
-        desired_state          % struct, record the planned state of trajectory planner
+        
+        curr_state             % current state of tilthex 
         control_input          % struct, record the designed input from the controller
 
     end
 
     methods
 
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % @brief: contructor of the class
-        % @param sim_settings : settings for the simulator
-        % @param quad_settings: settings for the quadrotor
-        % @param algo_settings: settings for the algorithms
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function obj = tilthexSimulator( sim_settings, tilthex_settings)
-
-            % Set the features in the world
-%             obj.features       = sim_settings.features;
-%             obj.feature_colors = sim_settings.colors;
 
             % Create figure and axes handle for the world and the captured image
             obj.world_fig_handle = figure('Name', 'Quadrotor Simulator');
             obj.world_axe_handle = axes('Parent', obj.world_fig_handle);
-
-            % The figure for images are currently disabled
-%             obj.image_fig_handle = figure('Name', 'Captured Image');
-%             obj.image_axe_handle = axes('Parent', obj.image_fig_handle);
 
             % Scatter the features in the world
             % scatter3(obj.world_axe_handle, obj.features(1, :), obj.features(2, :), obj.features(3, :), 25, obj.feature_colors', 'filled');
@@ -79,33 +39,8 @@ classdef tilthexSimulator < handle
             obj.time = 0;
             obj.time_step = sim_settings.time_step;
 
-%             % Initialize the frequencies for different events
-%             obj.imu_freq          = algo_settings.imu_freq;
-%             obj.cam_freq          = algo_settings.cam_freq;
-%             obj.state_est_freq    = algo_settings.state_est_freq;
-%             obj.atti_control_freq = algo_settings.atti_control_freq;
-%             obj.pos_control_freq  = algo_settings.pos_control_freq;
-%             obj.traj_plan_freq    = algo_settings.traj_plan_freq;
-
-            % Initialize the timer for different events.
-            % The timer is set to the ceiling at the beginning so that all
-            % the events are triggered at the beginning of the simulation.
-%             obj.imu_timer          = 1 / obj.imu_freq;
-%             obj.cam_timer          = 1 / obj.cam_freq;
-%             obj.state_est_timer    = 1 / obj.state_est_freq;
-%             obj.atti_control_timer = 1 / obj.atti_control_freq;
-%             obj.pos_control_timer  = 1 / obj.pos_control_freq;
-%             obj.traj_plan_timer    = 1 / obj.traj_plan_freq;
-
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
-
-
-            % Add function handles to the different events
-%             addlistener(obj, 'stateEstEvnt',    algo_settings.state_est_event_handler);
-%             addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);
-%             addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
-%             addlistener(obj, 'trajPlanEvnt',    algo_settings.traj_plan_event_handler);
 
         end
 
