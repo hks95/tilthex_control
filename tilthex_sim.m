@@ -1,3 +1,5 @@
+%% Entire simulator adapted from https://github.com/ke-sun/quadrotor_simulator
+
 clc;
 clear;
 close all;

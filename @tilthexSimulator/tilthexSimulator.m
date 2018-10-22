@@ -17,7 +17,7 @@ classdef tilthexSimulator < handle
 
     methods
 
-        function obj = tilthexSimulator( sim_settings, tilthex_settings)
+        function obj = tilthexSimulator( sim_settings, tilthex_settings,view_point)
 
             % Create figure and axes handle for the world and the captured image
             obj.world_fig_handle = figure('Name', 'Quadrotor Simulator');
@@ -28,7 +28,7 @@ classdef tilthexSimulator < handle
             scatter3(obj.world_axe_handle, 0, 0, 0, 25, 'filled');
             set(obj.world_axe_handle, 'DataAspectRatio', [1 1 1], 'DataAspectRatioMode', 'manual');
             set(obj.world_axe_handle, 'XLimMode', 'manual', 'YLimMode', 'manual', 'ZLimMode', 'manual');
-            set(obj.world_axe_handle, 'XLim', [-5.5 5.5], 'YLim', [-5.5 5.5], 'ZLim', [-5 5]);
+            set(obj.world_axe_handle, 'XLim', [view_point(1,1) view_point(1,2)], 'YLim', [view_point(2,1) view_point(2,2)], 'ZLim', [view_point(3,1) view_point(3,2)]);
             set(obj.world_axe_handle, 'NextPlot', 'add');
 
             % Create a quadrotor

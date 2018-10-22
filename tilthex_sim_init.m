@@ -68,6 +68,10 @@ hex_settings.initial_state.position    = [0 0 0]';
 hex_settings.initial_state.linear_vel  = [0 0 0]'; %[0 1 0]';
 % hex_settings.initial_state.linear_acc  = [0 0 1]'; %[-1 0 1]';
 
+%% Initial state of arm
+hex_settings.arm_initial_state.theta1 = 0;
+hex_settings.arm_initial_state.theta2 = pi/4;
+hex_settings.arm_initial_state.theta3 = 2*pi/3;
 %% Initialize the simulator
 
 % Total simulation time
@@ -78,5 +82,7 @@ sim_duration = 2;
 % sim_settings.colors    = colors;
 sim_settings.time_step = 0.01;
 
+% view points
+view_point = [-2 2;-2 2;-2 2];
 % Create an object of the simulator
-my_simulator = tilthexSimulator(sim_settings, hex_settings);
+my_simulator = tilthexSimulator(sim_settings, hex_settings,view_point);

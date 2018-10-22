@@ -58,6 +58,16 @@ classdef tilthex < handle
         z_axis_rotor5
         z_axis_rotor6
         
+        
+        % arm frames
+        arm_link1
+        arm_link2
+        arm_link3
+        arm_link4
+        arm_link5
+        
+        arm_link_body
+        
         % Mass and moment of inertia of the quad rotor
         mass
         inertia_tensor
@@ -68,6 +78,8 @@ classdef tilthex < handle
         %         position, linear velocity and linear
         %         acceleration
         state
+        
+        arm_state
 
     end
 
@@ -135,15 +147,25 @@ classdef tilthex < handle
             obj.z_axis_rotor5 = [0 0 -0.3]';
             obj.z_axis_rotor6 = [0 0 -0.3]';
             
+            % arm links
+            obj.arm_link1 = line('Parent',obj.world_axes_handle,'Color',[0.7 0 0],'Visible','off','LineWidth',3);
+            obj.arm_link2 = line('Parent',obj.world_axes_handle,'Color',[0.7 0 0],'Visible','off','LineWidth',3);
+            obj.arm_link3 = line('Parent',obj.world_axes_handle,'Color',[0.7 0 0],'Visible','off','LineWidth',3);
+            obj.arm_link4 = line('Parent',obj.world_axes_handle,'Color',[0.7 0 0],'Visible','off','LineWidth',3);
+            obj.arm_link5 = line('Parent',obj.world_axes_handle,'Color',[0.7 0 0],'Visible','off','LineWidth',3);
+                
+            % arm end points
+            
             % Set the mass the inertia tensor of the quadrotor
             obj.mass           = hex_settings.mass;
             obj.inertia_tensor = hex_settings.inertia_tensor;
-
-
-            % Initialize the orientation and position of the quadrotor in
+                    
+           % Initialize the orientation and position of the quadrotor in
             % the world
-            obj.state = hex_settings.initial_state;
-
+            obj.state = hex_settings.initial_state;            
+            obj.arm_state = hex_settings.arm_initial_state;
+            
+            draw_arm(obj);
         end
 
         % Draw the quadrobot on the WORLD axes
@@ -155,8 +177,7 @@ classdef tilthex < handle
         % @param input: contains 6 rotor speeds
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         [ ] = tilthex_dynamics( obj, dt, input )
-
-
+      
         function [ ] = delete( obj )
 
 
