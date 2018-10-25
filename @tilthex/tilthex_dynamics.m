@@ -62,7 +62,7 @@ arm_dynamics(obj);
 F_impact = [0;-1;0];
 F_jointdyn = [0;0;0]; %to be added
 
-T_ef = draw_arm(obj); %ef to base tf
+T_ef = drawArm(obj); %ef to base tf
 F_impact_hex = T_ef*F_impact;
 F_arm = F_jointdyn + F_impact_hex;
 

@@ -163,7 +163,7 @@ classdef tilthex < handle
             % the world
             obj.state = hex_settings.initial_state;            
             obj.arm_state = hex_settings.arm_initial_state;           
-            draw_arm(obj);
+            drawArm(obj);
         end
 
         % Draw the quadrobot on the WORLD axes
