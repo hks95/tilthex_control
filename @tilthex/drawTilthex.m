@@ -63,8 +63,8 @@ end_point1 = R * obj.x_axis_body + t;
 end_point2 = R * obj.y_axis_body + t;
 end_point3 = R * obj.z_axis_body + t;
 
-% set(obj.x_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point1(1)], 'YData', [t(2) end_point1(2)], 'ZData', [t(3) end_point1(3)], 'visible','on');
-% set(obj.y_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point2(1)], 'YData', [t(2) end_point2(2)], 'ZData', [t(3) end_point2(3)], 'visible','on');
-% set(obj.z_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point3(1)], 'YData', [t(2) end_point3(2)], 'ZData', [t(3) end_point3(3)], 'visible','on');
+set(obj.x_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point1(1)], 'YData', [t(2) end_point1(2)], 'ZData', [t(3) end_point1(3)], 'visible','on');
+set(obj.y_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point2(1)], 'YData', [t(2) end_point2(2)], 'ZData', [t(3) end_point2(3)], 'visible','on');
+set(obj.z_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point3(1)], 'YData', [t(2) end_point3(2)], 'ZData', [t(3) end_point3(3)], 'visible','on');
 
 end

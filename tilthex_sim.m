@@ -7,7 +7,7 @@ rng('default');
 
 %% Initialization
 tilthex_sim_init;
-N = 13000;
+N = 10000;
 w = 2*pi*N/60;
 u = [w w w w w w];
 

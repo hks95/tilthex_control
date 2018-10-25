@@ -26,6 +26,7 @@ classdef tilthexSimulator < handle
             % Scatter the features in the world
             % scatter3(obj.world_axe_handle, obj.features(1, :), obj.features(2, :), obj.features(3, :), 25, obj.feature_colors', 'filled');
             scatter3(obj.world_axe_handle, 0, 0, 0, 25, 'filled');
+            
             set(obj.world_axe_handle, 'DataAspectRatio', [1 1 1], 'DataAspectRatioMode', 'manual');
             set(obj.world_axe_handle, 'XLimMode', 'manual', 'YLimMode', 'manual', 'ZLimMode', 'manual');
             set(obj.world_axe_handle, 'XLim', [view_point(1,1) view_point(1,2)], 'YLim', [view_point(2,1) view_point(2,2)], 'ZLim', [view_point(3,1) view_point(3,2)]);

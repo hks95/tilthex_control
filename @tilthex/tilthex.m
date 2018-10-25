@@ -77,8 +77,7 @@ classdef tilthex < handle
         %         velocity, angular acceleration,
         %         position, linear velocity and linear
         %         acceleration
-        state
-        
+        state       
         arm_state
 
     end
@@ -108,7 +107,7 @@ classdef tilthex < handle
             R = 1;
             
             % wrt to XYZ
-            obj.link1_body = R*[ link_len*cosd(60),  link_len*sind(60),link_z ]';
+            obj.link1_body = R*[link_len*cosd(60),  link_len*sind(60),link_z ]';
             obj.link2_body = R*[link_len,0, link_z]';
             obj.link3_body = R*[link_len*cosd(60), -link_len*sind(60), link_z]';
             obj.link4_body = R*[-link_len*cosd(60), -link_len*sind(60), link_z]';
@@ -163,8 +162,7 @@ classdef tilthex < handle
            % Initialize the orientation and position of the quadrotor in
             % the world
             obj.state = hex_settings.initial_state;            
-            obj.arm_state = hex_settings.arm_initial_state;
-            
+            obj.arm_state = hex_settings.arm_initial_state;           
             draw_arm(obj);
         end
 
