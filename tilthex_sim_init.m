@@ -1,7 +1,7 @@
 %% Initialize hexrotor
 
 % Properties of the hexrotor
-hex_settings.link_len       = 1;
+hex_settings.link_len       = 0.5;
 hex_settings.mass           = 2;
 hex_settings.inertia_tensor = zeros(3, 3);
 hex_settings.inertia_tensor(1, 1) = 0.011; %hex_settings.mass/2 * hex_settings.link_len^2;
@@ -70,7 +70,7 @@ hex_settings.initial_state.linear_acc  = [0 0 1]'; %[-1 0 1]';
 
 %% Initial state of arm
 hex_settings.arm_initial_state.theta1 = 0;
-hex_settings.arm_initial_state.theta2 = pi/4;
+hex_settings.arm_initial_state.theta2 = pi/8;
 hex_settings.arm_initial_state.theta3 = 2*pi/3;
 hex_settings.arm_initial_state.theta1_dot = 0;
 hex_settings.arm_initial_state.theta2_dot = 0;
@@ -94,11 +94,11 @@ atti_control_settings.max_torque = 120*ones(3, 1);
 atti_controller                  = controller.attiController(atti_control_settings);
 
 % Position controller
-pos_control_settings.Kp         =  eye(3); %14*eye(3);
+pos_control_settings.Kp         =  100*eye(3);
 pos_critical_damp               = 4.5*pos_control_settings.Kp*hex_settings.mass;
-pos_control_settings.Kd         = eye(3); %diag(sqrt(diag(pos_critical_damp)));
+pos_control_settings.Kd         = diag(sqrt(diag(pos_critical_damp)));
 pos_control_settings.mass       = hex_settings.mass;
-pos_control_settings.freq       = 10;
+pos_control_settings.freq       = 100;
 pos_control_settings.max_thrust = 2*9.8*hex_settings.mass;
 pos_controller = controller.posController(pos_control_settings);
 
@@ -110,10 +110,11 @@ algo_settings.atti_control_event_handler = @atti_controller.control;
 algo_settings.pos_control_event_handler  = @pos_controller.control;
 
 %% Planner
+% look at OneTimeStepForward
 
 desired_state.desired_position = [0;0;0];
-desired_state.desired_linear_vel = [0;0;0];
-desired_state.desired_linear_acc = [0;0;0];
+% desired_state.desired_linear_vel = [0;0;0];
+% desired_state.desired_linear_acc = [0;0;0];
 %% Initialize the simulator
 
 % Total simulation time
@@ -122,9 +123,9 @@ sim_duration = 20;
 % Some properties of the world
 % sim_settings.features  = features;
 % sim_settings.colors    = colors;
-sim_settings.time_step = 0.001;
+sim_settings.time_step = 0.01;
 
 % view points
-view_point = [-2 2;-2 2;-2 2];
+view_point = [-3 3;-3 3;-3 3];
 % Create an object of the simulator
-my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point);
+my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,desired_state);

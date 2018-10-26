@@ -24,7 +24,7 @@ classdef tilthexSimulator < handle
 
     methods
 
-        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point)
+        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point,desired_state)
 
             % Create figure and axes handle for the world and the captured image
             obj.world_fig_handle = figure('Name', 'Quadrotor Simulator');
@@ -32,7 +32,7 @@ classdef tilthexSimulator < handle
 
             % Scatter the features in the world
             % scatter3(obj.world_axe_handle, obj.features(1, :), obj.features(2, :), obj.features(3, :), 25, obj.feature_colors', 'filled');
-            scatter3(obj.world_axe_handle, 0, 0, 0, 25, 'filled');
+            scatter3(obj.world_axe_handle, desired_state.desired_position(1,1), desired_state.desired_position(2,1), desired_state.desired_position(3,1),'c*');
             
             set(obj.world_axe_handle, 'DataAspectRatio', [1 1 1], 'DataAspectRatioMode', 'manual');
             set(obj.world_axe_handle, 'XLimMode', 'manual', 'YLimMode', 'manual', 'ZLimMode', 'manual');

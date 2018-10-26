@@ -37,6 +37,5 @@ torque    = -obj.Kr*er - obj.Kw*ew;
 % Filling the output
 event_data.torque = torque;
 
-
 end
 

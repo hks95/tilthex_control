@@ -31,11 +31,11 @@ classdef (ConstructOnLoad) posControlEvntData < event.EventData
 
         function obj = posControlEvntData(desired_state, curr_state)
             
-            obj.desired_position   = [2;2;2]; %desired_state.desired_position;
-            obj.desired_linear_vel = [0;0;0]; 
-            obj.desired_linear_acc = [0;0;0];
+            obj.desired_position   = desired_state.desired_position;
+            obj.desired_linear_vel = desired_state.desired_linear_vel; 
+            obj.desired_linear_acc = desired_state.desired_linear_acc;
 
-            obj.desired_yaw = 0; %desired_state.desired_yaw;
+            obj.desired_yaw = desired_state.desired_yaw;
 
             obj.position   = curr_state.position;
             obj.linear_vel = curr_state.linear_vel;

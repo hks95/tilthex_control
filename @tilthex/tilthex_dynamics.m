@@ -60,7 +60,7 @@ Rt = R1*R2;
 arm_dynamics(obj);
 
 % Arm force and moments
-F_impact = [0;2;0]; % to be verified
+F_impact = [0;1;0]; % to be verified
 F_jointdyn = [0;0;0]; %to be added
 
 T_ef = drawArm(obj); %ef to base tf
@@ -73,6 +73,9 @@ M_arm = M_jointdyn + T_ef*M_impact + cross(F_impact_hex,obj.arm_link_body.joint5
 
 Thrust = input.thrust;
 M_thrust = input.torque;
+
+% Thrust = [0;0;0];
+% M_thrust = [0;0;0]; 
 
 % Dynamics of the quadrotor
 dot_position     = obj.state.linear_vel;
@@ -108,5 +111,7 @@ obj.arm_state.F = F_arm;
 obj.arm_state.M = M_arm;
 
 fprintf('pos %f %f %f\n',obj.state.position(1,1),obj.state.position(2,1),obj.state.position(3,1));
-% fprintf('thrust %f %f %f\n',Thrust(1,1),Thrust(2,1),Thrust(3,1));
+fprintf('thrust %f %f %f\n',Thrust(1,1),Thrust(2,1),Thrust(3,1));
+fprintf('torque %f %f %f\n',M_thrust(1,1),M_thrust(2,1),M_thrust(3,1));
+
 end
