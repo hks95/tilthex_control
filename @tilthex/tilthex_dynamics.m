@@ -71,11 +71,11 @@ M_jointdyn = [0;0;0];%to be added
 M_impact = [0;0;0]; 
 M_arm = M_jointdyn + T_ef*M_impact + cross(F_impact_hex,obj.arm_link_body.joint5(1:3,1));
 
-Thrust = input.thrust;
-M_thrust = input.torque;
+% Thrust = input.thrust;
+% M_thrust = input.torque;
 
-% Thrust = [0;0;0];
-% M_thrust = [0;0;0]; 
+Thrust = [0;0;0];
+M_thrust = [0;0;0]; 
 
 % Dynamics of the quadrotor
 dot_position     = obj.state.linear_vel;

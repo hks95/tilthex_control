@@ -139,12 +139,12 @@ classdef tilthex < handle
             obj.z_rotor6_fig = line('Parent',obj.world_axes_handle,'Color',[1 0 1],'Visible','off','LineWidth',2);
             
             % wrt to rotor frame, while drawing coordinate transformations are done     
-            obj.z_axis_rotor1 = [0 0 -0.3]';
-            obj.z_axis_rotor2 = [0 0 -0.3]';
-            obj.z_axis_rotor3 = [0 0 -0.3]';
-            obj.z_axis_rotor4 = [0 0 -0.3]';
-            obj.z_axis_rotor5 = [0 0 -0.3]';
-            obj.z_axis_rotor6 = [0 0 -0.3]';
+            obj.z_axis_rotor1 = [0 0 -0.1]';
+            obj.z_axis_rotor2 = [0 0 -0.1]';
+            obj.z_axis_rotor3 = [0 0 -0.1]';
+            obj.z_axis_rotor4 = [0 0 -0.1]';
+            obj.z_axis_rotor5 = [0 0 -0.1]';
+            obj.z_axis_rotor6 = [0 0 -0.1]';
             
             % arm links
             obj.arm_link1 = line('Parent',obj.world_axes_handle,'Color',[0.7 0 0],'Visible','off','LineWidth',3);
