@@ -10,6 +10,13 @@ classdef tilthexSimulator < handle
         time                   % scalar, current time
         time_step              % scalar, time step of the simulation
         
+        atti_control_freq      % scalar, frequency of attitude control
+        atti_control_timer     % scalar, timer for attitude control event
+        
+        pos_control_freq       % scalar, frequency of position control
+        pos_control_timer      % scalar, timer for position control event
+        
+        desired_state          % struct, record the planned state of trajectory planner
         curr_state             % current state of tilthex 
         control_input          % struct, record the designed input from the controller
 
@@ -17,7 +24,7 @@ classdef tilthexSimulator < handle
 
     methods
 
-        function obj = tilthexSimulator( sim_settings, tilthex_settings,view_point)
+        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point)
 
             % Create figure and axes handle for the world and the captured image
             obj.world_fig_handle = figure('Name', 'Quadrotor Simulator');
@@ -40,9 +47,22 @@ classdef tilthexSimulator < handle
             obj.time = 0;
             obj.time_step = sim_settings.time_step;
 
+           obj.atti_control_freq = algo_settings.atti_control_freq;
+           obj.pos_control_freq  = algo_settings.pos_control_freq;
+           
+             % Initialize the timer for different events.
+            % The timer is set to the ceiling at the beginning so that all
+            % the events are triggered at the beginning of the simulation.
+           obj.atti_control_timer = 1 / obj.atti_control_freq;
+           obj.pos_control_timer  = 1 / obj.pos_control_freq;
+           
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
-
+            
+            % Add function handles to the different events
+            addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
+            addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);
+            
         end
 
         % The interface of the simulator.
@@ -58,20 +78,20 @@ classdef tilthexSimulator < handle
 
     end
 
-%     events
+    events
 
         % State estimation event
 %         stateEstEvnt
 
         % Attitude control event
-%         attiControlEvnt
+        attiControlEvnt
 
         % Position control event
-%         posControlEvnt
+        posControlEvnt
 
         % Trajectory planning event
 %         trajPlanEvnt
 
-%     end
+    end
 
 end

@@ -7,6 +7,7 @@ rng('default');
 
 %% Initialization
 tilthex_sim_init;
+
 N = 10000;
 w = 2*pi*N/60;
 u = [w w w w w w];
@@ -14,7 +15,7 @@ u = [w w w w w w];
 %% Start simulation
 
 while my_simulator.time < sim_duration + 1e-10
-    my_simulator.oneTimeStepForward(u);
+    my_simulator.oneTimeStepForward();
     drawnow;
 
 end

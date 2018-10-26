@@ -80,17 +80,51 @@ hex_settings.arm_initial_state.L1 =  0.020728; % horizontal offset from the z ax
 hex_settings.arm_initial_state.L2 = 0.107;
 hex_settings.arm_initial_state.L3 = 0.300;
 hex_settings.arm_initial_state.L4 = 0.320;
+hex_settings.arm_initial_state.F = [0;0;0];
+hex_settings.arm_initial_state.M = [0;0;0];
+
+%% Intialize the controller
+
+% Attitude controller
+atti_control_settings.Kr         = 240*eye(3);
+atti_critical_damp               = 4.5*atti_control_settings.Kr*hex_settings.inertia_tensor;
+atti_control_settings.Kw         = diag(sqrt(diag(atti_critical_damp)));
+atti_control_settings.freq       = 200;
+atti_control_settings.max_torque = 120*ones(3, 1);
+atti_controller                  = controller.attiController(atti_control_settings);
+
+% Position controller
+pos_control_settings.Kp         =  eye(3); %14*eye(3);
+pos_critical_damp               = 4.5*pos_control_settings.Kp*hex_settings.mass;
+pos_control_settings.Kd         = eye(3); %diag(sqrt(diag(pos_critical_damp)));
+pos_control_settings.mass       = hex_settings.mass;
+pos_control_settings.freq       = 10;
+pos_control_settings.max_thrust = 2*9.8*hex_settings.mass;
+pos_controller = controller.posController(pos_control_settings);
+
+% algo settings
+algo_settings.atti_control_freq = atti_control_settings.freq;
+algo_settings.pos_control_freq  = pos_control_settings.freq;
+
+algo_settings.atti_control_event_handler = @atti_controller.control;
+algo_settings.pos_control_event_handler  = @pos_controller.control;
+
+%% Planner
+
+desired_state.desired_position = [0;0;0];
+desired_state.desired_linear_vel = [0;0;0];
+desired_state.desired_linear_acc = [0;0;0];
 %% Initialize the simulator
 
 % Total simulation time
-sim_duration = 2;
+sim_duration = 20;
 
 % Some properties of the world
 % sim_settings.features  = features;
 % sim_settings.colors    = colors;
-sim_settings.time_step = 0.01;
+sim_settings.time_step = 0.001;
 
 % view points
 view_point = [-2 2;-2 2;-2 2];
 % Create an object of the simulator
-my_simulator = tilthexSimulator(sim_settings, hex_settings,view_point);
+my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point);
