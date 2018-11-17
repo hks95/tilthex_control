@@ -123,7 +123,7 @@ sim_duration = 20;
 % Some properties of the world
 % sim_settings.features  = features;
 % sim_settings.colors    = colors;
-sim_settings.time_step = 0.01;
+sim_settings.time_step = 0.001; 
 
 % view points
 view_point = [-2 2;-2 2;-2 2];

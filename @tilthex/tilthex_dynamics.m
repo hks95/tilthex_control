@@ -60,7 +60,7 @@ Rt = R1*R2;
 arm_dynamics(obj);
 
 % Arm force and moments
-F_impact = [0;1;0]; % to be verified
+F_impact = [0;-1;0]; % to be verified
 F_jointdyn = [0;0;0]; %to be added
 
 T_ef = drawArm(obj); %ef to base tf
