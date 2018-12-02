@@ -1,3 +1,17 @@
+%% FLAG TO SWITCH BETWEEN SLQ AND FBL
+use_slq = 1;
+
+
+%% Initialize the simulator
+
+% Total simulation time
+sim_duration = 20;
+sim_settings.sim_duration = sim_duration;
+% Some properties of the world
+% sim_settings.features  = features;
+% sim_settings.colors    = colors;
+sim_settings.time_step = 0.01; 
+
 %% Initialize hexrotor
 
 % Properties of the hexrotor
@@ -68,55 +82,53 @@ hex_settings.initial_state.position    = [0 0 -1]';
 hex_settings.initial_state.linear_vel  = [0 0 0]'; %[0 1 0]';
 hex_settings.initial_state.linear_acc  = [0 0 0]'; %[-1 0 1]';
 
-%% Initalize the trajectory planner
-plan_settings.freq = 15;
-traj_planner = planner.trajPlanner(plan_settings);
-
-%% Intialize the controller
-
-% Attitude controller
-atti_control_settings.Kr         = 240*eye(3);
-atti_critical_damp               = 4.5*atti_control_settings.Kr*hex_settings.inertia_tensor;
-atti_control_settings.Kw         = diag(sqrt(diag(atti_critical_damp)));
-atti_control_settings.freq       = 200;
-atti_control_settings.max_torque = 120*ones(3, 1);
-atti_controller                  = controller.attiController(atti_control_settings);
-
-% Position controller
-pos_control_settings.Kp         =  200*eye(3);
-pos_critical_damp               = 3.5*pos_control_settings.Kp*hex_settings.mass;
-pos_control_settings.Kd         = diag(sqrt(diag(pos_critical_damp)));
-pos_control_settings.mass       = hex_settings.mass;
-pos_control_settings.freq       = 100;
-pos_control_settings.max_thrust = 2*9.8*hex_settings.mass;
-pos_controller = controller.posController(pos_control_settings);
-
-% algo settings
-algo_settings.atti_control_freq = atti_control_settings.freq;
-algo_settings.pos_control_freq  = pos_control_settings.freq;
-algo_settings.traj_plan_freq  = plan_settings.freq;
-
-algo_settings.atti_control_event_handler = @atti_controller.control;
-algo_settings.pos_control_event_handler  = @pos_controller.control;
-algo_settings.traj_plan_event_handler    = @traj_planner.plan;
 
 %% Planner
+% Initalize the trajectory planner
+plan_settings.freq = 15;
+traj_planner = planner.trajPlanner(plan_settings);
+algo_settings.traj_plan_freq  = plan_settings.freq;
+algo_settings.traj_plan_event_handler    = @traj_planner.plan;
+
 % look at OneTimeStepForward
 desired_state.desired_yaw        = 0;
 desired_state.desired_position = [1.5;-0.5;-1.5];
 desired_state.desired_linear_vel = [0;0;0];
 desired_state.desired_linear_acc = [0;0;0];
-%% Initialize the simulator
 
-% Total simulation time
-sim_duration = 20;
+%% Intialize the controller
 
-% Some properties of the world
-% sim_settings.features  = features;
-% sim_settings.colors    = colors;
-sim_settings.time_step = 0.01; 
+if use_slq == 0
+    % Attitude controller
+    atti_control_settings.Kr         = 240*eye(3);
+    atti_critical_damp               = 4.5*atti_control_settings.Kr*hex_settings.inertia_tensor;
+    atti_control_settings.Kw         = diag(sqrt(diag(atti_critical_damp)));
+    atti_control_settings.freq       = 200;
+    atti_control_settings.max_torque = 120*ones(3, 1);
+    atti_controller                  = controller.attiController(atti_control_settings);
+
+    % Position controller
+    pos_control_settings.Kp         =  200*eye(3);
+    pos_critical_damp               = 3.5*pos_control_settings.Kp*hex_settings.mass;
+    pos_control_settings.Kd         = diag(sqrt(diag(pos_critical_damp)));
+    pos_control_settings.mass       = hex_settings.mass;
+    pos_control_settings.freq       = 100;
+    pos_control_settings.max_thrust = 2*9.8*hex_settings.mass;
+    pos_controller = controller.posController(pos_control_settings);
+
+    % algo settings
+    algo_settings.atti_control_freq = atti_control_settings.freq;
+    algo_settings.pos_control_freq  = pos_control_settings.freq;
+    algo_settings.atti_control_event_handler = @atti_controller.control;
+    algo_settings.pos_control_event_handler  = @pos_controller.control;
+
+else
+    % SLQ controller
+    slq_controller = controller.slqController(hex_settings,sim_settings,desired_state);
+    algo_settings.slq_control_event_handler    = @slq_controller.control;
+end
 
 % view points
 view_point = [-3 3;-3 3;-3 3];
 % Create an object of the simulator
-my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,desired_state);
+my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,desired_state,use_slq);

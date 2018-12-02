@@ -1,0 +1,107 @@
+classdef slqController < handle
+
+    properties
+
+    % Algorithm 1 params
+    g
+    m
+    l
+    I
+
+    T
+    dt
+    N
+    
+    c    
+    Qt
+    Qf
+    Rt
+    
+    initial_state
+    desired_state
+    
+    ls_steps
+    alpha_d
+    
+    traj_track % 0 if goal tracking
+
+    % Algorithm 2 params
+    policy_lag
+    Q_lqr
+    mpc_steps
+    
+    % waypoints params
+    wp_bool
+    num_wp
+    
+    rho_p
+    t_p 
+    weight_p
+    
+    actTraj
+    u_ff
+    u_fb
+    mpc_iter
+    
+    end
+
+    methods
+
+        % Class Constructor
+        function obj = posController( contrl_settings,hex_settings,sim_settings )
+            self.m = hex_settings.mass;
+            self.l = hex_settings.link_len;
+            self.I = hex_settings.inertia_tensor;
+            self.c = contrl_settings.c;
+            
+            self.T = sim_settings.duration;
+            self.dt = sim_settings.time_step;
+            self.N = self.T/self.dt + 1;
+            
+            self.Qt = contrl_settings.Qt;
+            self.Qf = contrl_settings.Qf;
+            self.Rt = contrl_settings.Rt;
+
+            self.initial_state = hex_settings.initial_state;
+            
+            self.ls_steps = contrl_settings.ls_steps;
+            self.alpha_d  = contrl_settings.alpha_d;
+
+            self.traj_track = contrl_settings.traj_track; % 0 if goal tracking
+
+            % Algorithm 2 params
+            self.policy_lag = contrl_settings.policy_lag;
+            self.Q_lqr = contrl_settings.Q_lqr;
+            self.mpc_steps = contrl_settings.mpc_steps;
+
+            % waypoints params
+            self.wp_bool = contrl_settings.wp_bool;
+            self.num_wp = contrl_settings.num_wp;
+
+            self.rho_p = contrl_settings.rho_p;
+            self.t_p = contrl_settings.t_p;
+            self.weight_p = contrl_settings.weight_p;
+
+            
+            self.actTraj.x =  hex_settings.initial_state;
+            self.actTraj.u = zeros(6,1);
+
+            self.u_ff
+            self.u_fb
+            self.mpc_iter            
+        end
+
+        % Interface of the algorithm
+        [] = control(obj, src, event_data)
+
+        % Class destructor
+        function [] = delete(obj)
+
+        end
+
+    end
+
+end
+
+
+

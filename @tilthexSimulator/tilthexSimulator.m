@@ -22,12 +22,13 @@ classdef tilthexSimulator < handle
         desired_state          % struct, record the planned state of trajectory planner
         curr_state             % current state of tilthex 
         control_input          % struct, record the designed input from the controller
-
+        
+        use_slq
     end
 
     methods
 
-        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point,desired_state)
+        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point,desired_state,use_slq)
 
             % Create figure and axes handle for the world and the captured image
             obj.world_fig_handle = figure('Name', 'TiltHexrotor Simulator');
@@ -52,24 +53,32 @@ classdef tilthexSimulator < handle
             obj.time = 0;
             obj.time_step = sim_settings.time_step;
 
-           obj.atti_control_freq = algo_settings.atti_control_freq;
-           obj.pos_control_freq  = algo_settings.pos_control_freq;
-           obj.traj_plan_freq  = algo_settings.traj_plan_freq;
-           
-             % Initialize the timer for different events.
+           if use_slq == 0 
+            obj.atti_control_freq = algo_settings.atti_control_freq;
+            obj.pos_control_freq  = algo_settings.pos_control_freq;
+            % Initialize the timer for different events.
             % The timer is set to the ceiling at the beginning so that all
             % the events are triggered at the beginning of the simulation.
            obj.atti_control_timer = 1 / obj.atti_control_freq;
            obj.pos_control_timer  = 1 / obj.pos_control_freq;
+           addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
+           addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);
+  
+           else
+            fprintf('using slq\n');
+           addlistener(obj, 'slqControlEvnt',  algo_settings.slq_control_event_handler);
+           end
+           
+            obj.traj_plan_freq  = algo_settings.traj_plan_freq;
+           
            obj.traj_plan_timer    = 1 / obj.traj_plan_freq;
            
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
             obj.desired_state = desired_state; 
             % Add function handles to the different events
-            addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
-            addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);
             addlistener(obj, 'trajPlanEvnt',    algo_settings.traj_plan_event_handler);
+            obj.use_slq = use_slq;
         end
 
         % The interface of the simulator.
@@ -95,6 +104,9 @@ classdef tilthexSimulator < handle
 
         % Position control event
         posControlEvnt
+        
+        % SLQ control event
+        slqControlEvnt
 
 %         Trajectory planning event
         trajPlanEvnt

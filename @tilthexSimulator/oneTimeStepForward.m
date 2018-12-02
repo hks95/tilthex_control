@@ -1,4 +1,4 @@
-function [ ] = oneTimeStepForward( obj )
+function [ ] = oneTimeStepForward( obj,use_slq )
 %ONETIMESTEPFORWARD forwards the simulation by one time step
 %
 
@@ -39,39 +39,44 @@ obj.curr_state.roll        = obj.robot.state.roll;
 %                           Control
 %===================================================================
 
+if obj.use_slq == 0
 %-------------------- position controller---------------------------
-obj.pos_control_timer = obj.pos_control_timer + obj.time_step;
-if obj.pos_control_timer > 1/obj.pos_control_freq -1e-10
+    obj.pos_control_timer = obj.pos_control_timer + obj.time_step;
+    if obj.pos_control_timer > 1/obj.pos_control_freq -1e-10
 
-    pos_control_data = controller.posControlEvntData(obj.desired_state, obj.curr_state);
-    notify(obj, 'posControlEvnt', pos_control_data);
-    obj.pos_control_timer = 0;
+        pos_control_data = controller.posControlEvntData(obj.desired_state, obj.curr_state);
+        notify(obj, 'posControlEvnt', pos_control_data);
+        obj.pos_control_timer = 0;
 
-    % Set the entries of the disired state
-    obj.desired_state.time_stamp_from_pos_Controller = obj.time;
-    obj.desired_state.desired_roll                   = pos_control_data.desired_roll;
-    obj.desired_state.desired_pitch                  = pos_control_data.desired_pitch;
+        % Set the entries of the disired state
+        obj.desired_state.time_stamp_from_pos_Controller = obj.time;
+        obj.desired_state.desired_roll                   = pos_control_data.desired_roll;
+        obj.desired_state.desired_pitch                  = pos_control_data.desired_pitch;
 
-    % Set the entries of the control input
-    obj.control_input.thrust_time_stamp = obj.time;
-    obj.control_input.thrust            = pos_control_data.thrust;
+        % Set the entries of the control input
+        obj.control_input.thrust_time_stamp = obj.time;
+        obj.control_input.thrust            = pos_control_data.thrust;
 
+    end
+
+    %-------------------- Attitude controller---------------------------
+    obj.atti_control_timer = obj.atti_control_timer + obj.time_step;
+    if obj.atti_control_timer > 1/obj.atti_control_freq - 1e-10
+
+        atti_control_data = controller.attiControlEvntData(obj.desired_state, obj.curr_state);
+        notify(obj, 'attiControlEvnt', atti_control_data);
+        obj.atti_control_timer = 0;
+
+        % Set the entries of the control input
+        obj.control_input.torque_time_stamp = obj.time;
+        obj.control_input.torque            = atti_control_data.torque;
+
+    end
+else 
+    fprintf('using slq 2\n');
+    slq_control_data = controller.slqControlEvntData(obj.desired_state, obj.curr_state);
+    notify(obj, 'slqControlEvnt', slq_control_data);
 end
-
-%-------------------- Attitude controller---------------------------
-obj.atti_control_timer = obj.atti_control_timer + obj.time_step;
-if obj.atti_control_timer > 1/obj.atti_control_freq - 1e-10
-
-    atti_control_data = controller.attiControlEvntData(obj.desired_state, obj.curr_state);
-    notify(obj, 'attiControlEvnt', atti_control_data);
-    obj.atti_control_timer = 0;
-
-    % Set the entries of the control input
-    obj.control_input.torque_time_stamp = obj.time;
-    obj.control_input.torque            = atti_control_data.torque;
-
-end
-
 % Dynamics
 % Compute the state of the tilhex at the next step
 obj.robot.tilthex_dynamics(obj.time_step,obj.control_input);
