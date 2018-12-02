@@ -31,8 +31,10 @@ classdef tilthexSimulator < handle
             obj.world_axe_handle = axes('Parent', obj.world_fig_handle);
 
             % Scatter the features in the world
-            % scatter3(obj.world_axe_handle, obj.features(1, :), obj.features(2, :), obj.features(3, :), 25, obj.feature_colors', 'filled');
-            scatter3(obj.world_axe_handle, desired_state.desired_position(1,1), desired_state.desired_position(2,1), desired_state.desired_position(3,1),'c*');
+%             pt = [1.5; -0.5; -1.5];
+            pt = [0 1 0;1 0 0;0 0 -1] * desired_state.desired_position;
+            scatter3(obj.world_axe_handle, pt(1), pt(2), pt(3), 25, 'c*');
+%             scatter3(obj.world_axe_handle, desired_state.desired_position(1,1), desired_state.desired_position(2,1), desired_state.desired_position(3,1),'c*');
             
             set(obj.world_axe_handle, 'DataAspectRatio', [1 1 1], 'DataAspectRatioMode', 'manual');
             set(obj.world_axe_handle, 'XLimMode', 'manual', 'YLimMode', 'manual', 'ZLimMode', 'manual');
@@ -40,7 +42,7 @@ classdef tilthexSimulator < handle
             set(obj.world_axe_handle, 'NextPlot', 'add');
 
             % Create a quadrotor
-            obj.robot = tilthex(obj.world_axe_handle, tilthex_settings);
+            obj.robot = tilthex(obj.world_axe_handle, tilthex_settings,desired_state);
 
             % Set intial time to 0
             % Each time the simulaton runs, the time increases by time_step
@@ -58,7 +60,7 @@ classdef tilthexSimulator < handle
            
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
-            
+            obj.desired_state = desired_state; 
             % Add function handles to the different events
             addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
             addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);

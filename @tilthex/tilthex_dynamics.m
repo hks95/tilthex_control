@@ -57,25 +57,25 @@ Rt = R1*R2;
 % drag
 % gyroscopic effect
 
-arm_dynamics(obj);
+% arm_dynamics(obj);
 
 % Arm force and moments
 F_impact = [0;-1;0]; % to be verified
 F_jointdyn = [0;0;0]; %to be added
 
 T_ef = drawArm(obj); %ef to base tf
-F_impact_hex = T_ef*F_impact;
+F_impact_hex = T_ef(1:3,1:3)*F_impact;
 F_arm = F_jointdyn + F_impact_hex;
 
 M_jointdyn = [0;0;0];%to be added
 M_impact = [0;0;0]; 
-M_arm = M_jointdyn + T_ef*M_impact + cross(F_impact_hex,obj.arm_link_body.joint5(1:3,1));
+M_arm = M_jointdyn + T_ef(1:3,1:3)*M_impact + cross(T_ef(1:3,4),F_impact);
 
-% Thrust = input.thrust;
-% M_thrust = input.torque;
+Thrust = input.thrust;
+M_thrust = input.torque;
 
-Thrust = [0;0;0];
-M_thrust = [0;0;0]; 
+% Thrust = [0;0;0];
+% M_thrust = [0;0;0]; 
 
 % Dynamics of the quadrotor
 dot_position     = obj.state.linear_vel;
@@ -111,7 +111,7 @@ obj.arm_state.F = F_arm;
 obj.arm_state.M = M_arm;
 
 fprintf('pos %f %f %f\n',obj.state.position(1,1),obj.state.position(2,1),obj.state.position(3,1));
-fprintf('thrust %f %f %f\n',Thrust(1,1),Thrust(2,1),Thrust(3,1));
-fprintf('torque %f %f %f\n',M_thrust(1,1),M_thrust(2,1),M_thrust(3,1));
+% fprintf('thrust %f %f %f\n',Thrust(1,1),Thrust(2,1),Thrust(3,1));
+% fprintf('torque %f %f %f\n',M_thrust(1,1),M_thrust(2,1),M_thrust(3,1));
 
 end

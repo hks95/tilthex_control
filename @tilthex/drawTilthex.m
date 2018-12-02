@@ -4,10 +4,10 @@ function [ ] = drawTilthex( obj )
 %
 
 % convert FRD to XYZ
-% Rt = [0 1 0;1 0 0;0 0 -1];
+Rt = [0 1 0;1 0 0;0 0 -1];
 
-Rt = eye(3);
-Rt(3,3) = -1;
+% Rt = eye(3);
+% Rt(3,3) = -1;
 
 % The orientation and translation of the body frame
 R = obj.state.R;

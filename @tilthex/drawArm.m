@@ -22,7 +22,7 @@ A5_4 = transMat(L4,0,0,0);
 A6_5 = transMat(0,0,0,-theta2);
 
 A6_0 = A1_0*A4_1*A5_4*A6_5;
-T_ef = A6_0(1:3,1:3);
+T_ef = A6_0;
 %% end point calculation
 joint_orig = [0;0;0;1];
 obj.arm_link_body.joint1 = A1_0*joint_orig;

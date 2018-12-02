@@ -37,10 +37,10 @@ obj.curr_state.arm_M = obj.robot.arm_state.M;
 
 % end
 
-obj.desired_state.desired_yaw        = 0;
-obj.desired_state.desired_position   = [0;0;0];
-obj.desired_state.desired_linear_vel = [0;0;0];
-obj.desired_state.desired_linear_acc = [0;0;0];
+% obj.desired_state.desired_yaw        = 0;
+% obj.desired_state.desired_position   = [1.5;-0.5;-1.5];
+% obj.desired_state.desired_linear_vel = [0;0;0];
+% obj.desired_state.desired_linear_acc = [0;0;0];
 
 %===================================================================
 %                           Control
@@ -85,7 +85,7 @@ obj.robot.tilthex_dynamics(obj.time_step,obj.control_input);
 
 % Visualization
 obj.robot.drawTilthex();
-plot3(1,1,1,'MarkerSize',10);
+% plot3(obj.desired_state.desired_position(1),obj.desired_state.desired_position(2),obj.desired_state.desired_position(3),'MarkerSize',10);
 
 % Advance the time by time_step
 obj.time = obj.time + obj.time_step;

@@ -24,10 +24,8 @@ thrust    = obj.mass * R\(-g*[0 0 1]'+v) -1/obj.mass*R*F_arm;
 absThrust = min(obj.max_thrust,norm(thrust));
 thrust    = sign(thrust)*absThrust;
 
-
 % Compute the command acceleration vector
 % linear_acc_command = desired_linear_acc + obj.Kd*(desired_linear_vel-linear_vel) + obj.Kp*(desired_position-position);
-
 
 % Compute the thrust
 % thrust    = obj.mass * (g+linear_acc_command(3));

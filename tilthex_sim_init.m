@@ -70,7 +70,7 @@ hex_settings.initial_state.linear_acc  = [0 0 1]'; %[-1 0 1]';
 
 %% Initial state of arm
 hex_settings.arm_initial_state.theta1 = 0;
-hex_settings.arm_initial_state.theta2 = pi/8;
+hex_settings.arm_initial_state.theta2 = pi/10;
 hex_settings.arm_initial_state.theta3 = 2*pi/3;
 hex_settings.arm_initial_state.theta1_dot = 0;
 hex_settings.arm_initial_state.theta2_dot = 0;
@@ -95,7 +95,7 @@ atti_controller                  = controller.attiController(atti_control_settin
 
 % Position controller
 pos_control_settings.Kp         =  100*eye(3);
-pos_critical_damp               = 4.5*pos_control_settings.Kp*hex_settings.mass;
+pos_critical_damp               = 3.5*pos_control_settings.Kp*hex_settings.mass;
 pos_control_settings.Kd         = diag(sqrt(diag(pos_critical_damp)));
 pos_control_settings.mass       = hex_settings.mass;
 pos_control_settings.freq       = 100;
@@ -111,10 +111,10 @@ algo_settings.pos_control_event_handler  = @pos_controller.control;
 
 %% Planner
 % look at OneTimeStepForward
-
-desired_state.desired_position = [0;0;0];
-% desired_state.desired_linear_vel = [0;0;0];
-% desired_state.desired_linear_acc = [0;0;0];
+desired_state.desired_yaw        = 0;
+desired_state.desired_position = [1.5;-0.5;-1.5];
+desired_state.desired_linear_vel = [0;0;0];
+desired_state.desired_linear_acc = [0;0;0];
 %% Initialize the simulator
 
 % Total simulation time
@@ -123,7 +123,7 @@ sim_duration = 20;
 % Some properties of the world
 % sim_settings.features  = features;
 % sim_settings.colors    = colors;
-sim_settings.time_step = 0.001; 
+sim_settings.time_step = 0.01; 
 
 % view points
 view_point = [-2 2;-2 2;-2 2];

@@ -79,12 +79,15 @@ classdef tilthex < handle
         %         acceleration
         state       
         arm_state
+        
+        desired_state
+        
 
     end
 
     methods
 
-        function obj = tilthex(world_axes_handle, hex_settings)
+        function obj = tilthex(world_axes_handle, hex_settings,desired_state)
 
             % The axes where the quadrotor is drawn
             obj.world_axes_handle = world_axes_handle;
@@ -163,7 +166,10 @@ classdef tilthex < handle
             % the world
             obj.state = hex_settings.initial_state;            
             obj.arm_state = hex_settings.arm_initial_state;           
+            obj.desired_state = desired_state;
+            
             drawArm(obj);
+            
         end
 
         % Draw the quadrobot on the WORLD axes
