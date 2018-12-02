@@ -16,6 +16,9 @@ classdef tilthexSimulator < handle
         pos_control_freq       % scalar, frequency of position control
         pos_control_timer      % scalar, timer for position control event
         
+        traj_plan_freq         % scalar, frequency of trajectory planning
+        traj_plan_timer        % scalar, timer for trajectory planning
+        
         desired_state          % struct, record the planned state of trajectory planner
         curr_state             % current state of tilthex 
         control_input          % struct, record the designed input from the controller
@@ -51,12 +54,14 @@ classdef tilthexSimulator < handle
 
            obj.atti_control_freq = algo_settings.atti_control_freq;
            obj.pos_control_freq  = algo_settings.pos_control_freq;
+           obj.traj_plan_freq  = algo_settings.traj_plan_freq;
            
              % Initialize the timer for different events.
             % The timer is set to the ceiling at the beginning so that all
             % the events are triggered at the beginning of the simulation.
            obj.atti_control_timer = 1 / obj.atti_control_freq;
            obj.pos_control_timer  = 1 / obj.pos_control_freq;
+           obj.traj_plan_timer    = 1 / obj.traj_plan_freq;
            
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
@@ -64,7 +69,7 @@ classdef tilthexSimulator < handle
             % Add function handles to the different events
             addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
             addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);
-            
+            addlistener(obj, 'trajPlanEvnt',    algo_settings.traj_plan_event_handler);
         end
 
         % The interface of the simulator.
@@ -91,8 +96,8 @@ classdef tilthexSimulator < handle
         % Position control event
         posControlEvnt
 
-        % Trajectory planning event
-%         trajPlanEvnt
+%         Trajectory planning event
+        trajPlanEvnt
 
     end
 

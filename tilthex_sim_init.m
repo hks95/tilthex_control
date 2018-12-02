@@ -64,9 +64,13 @@ hex_settings.initial_state.pitch       = 0;
 hex_settings.initial_state.roll        = 0;
 hex_settings.initial_state.angular_vel = [0 0 0]';
 hex_settings.initial_state.angular_acc = zeros(3, 1);
-hex_settings.initial_state.position    = [0 0 0]';
+hex_settings.initial_state.position    = [0 0 -1]';
 hex_settings.initial_state.linear_vel  = [0 0 0]'; %[0 1 0]';
-hex_settings.initial_state.linear_acc  = [0 0 1]'; %[-1 0 1]';
+hex_settings.initial_state.linear_acc  = [0 0 0]'; %[-1 0 1]';
+
+%% Initalize the trajectory planner
+plan_settings.freq = 15;
+traj_planner = planner.trajPlanner(plan_settings);
 
 %% Intialize the controller
 
@@ -79,7 +83,7 @@ atti_control_settings.max_torque = 120*ones(3, 1);
 atti_controller                  = controller.attiController(atti_control_settings);
 
 % Position controller
-pos_control_settings.Kp         =  100*eye(3);
+pos_control_settings.Kp         =  200*eye(3);
 pos_critical_damp               = 3.5*pos_control_settings.Kp*hex_settings.mass;
 pos_control_settings.Kd         = diag(sqrt(diag(pos_critical_damp)));
 pos_control_settings.mass       = hex_settings.mass;
@@ -90,9 +94,11 @@ pos_controller = controller.posController(pos_control_settings);
 % algo settings
 algo_settings.atti_control_freq = atti_control_settings.freq;
 algo_settings.pos_control_freq  = pos_control_settings.freq;
+algo_settings.traj_plan_freq  = plan_settings.freq;
 
 algo_settings.atti_control_event_handler = @atti_controller.control;
 algo_settings.pos_control_event_handler  = @pos_controller.control;
+algo_settings.traj_plan_event_handler    = @traj_planner.plan;
 
 %% Planner
 % look at OneTimeStepForward
@@ -111,6 +117,6 @@ sim_duration = 20;
 sim_settings.time_step = 0.01; 
 
 % view points
-view_point = [-2 2;-2 2;-2 2];
+view_point = [-3 3;-3 3;-3 3];
 % Create an object of the simulator
 my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,desired_state);

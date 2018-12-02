@@ -21,30 +21,25 @@ obj.curr_state.roll        = obj.robot.state.roll;
 
 % obj.traj_plan_timer = obj.traj_plan_timer + obj.time_step;
 % if obj.traj_plan_timer > 1/obj.traj_plan_freq - 1e-10
-
+% 
 %     traj_plan_data = planner.evntData(obj.time, obj.curr_state);
 %     notify(obj, 'trajPlanEvnt', traj_plan_data);
 %     obj.traj_plan_timer = 0;
-
-    % Set the entries of the desired state
+% 
+% %     Set the entries of the desired state
 %     obj.desired_state.time_stamp         = obj.time;
 %     obj.desired_state.desired_yaw        = traj_plan_data.desired_yaw;
 %     obj.desired_state.desired_position   = traj_plan_data.desired_position;
 %     obj.desired_state.desired_linear_vel = traj_plan_data.desired_linear_vel;
 %     obj.desired_state.desired_linear_acc = traj_plan_data.desired_linear_acc;
-
+% 
 % end
-
-% obj.desired_state.desired_yaw        = 0;
-% obj.desired_state.desired_position   = [1.5;-0.5;-1.5];
-% obj.desired_state.desired_linear_vel = [0;0;0];
-% obj.desired_state.desired_linear_acc = [0;0;0];
 
 %===================================================================
 %                           Control
 %===================================================================
 
-%-------------------- positionition controller---------------------------
+%-------------------- position controller---------------------------
 obj.pos_control_timer = obj.pos_control_timer + obj.time_step;
 if obj.pos_control_timer > 1/obj.pos_control_freq -1e-10
 
