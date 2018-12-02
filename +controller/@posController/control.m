@@ -17,10 +17,9 @@ linear_acc = event_data.linear_acc;
 % Compute the auxiliary control input
 v = desired_linear_acc + obj.Kd*(desired_linear_vel-linear_vel) + obj.Kp*(desired_position-position);
 
-F_arm = src.robot.arm_state.F;
 R = src.robot.state.R;
 % Compute the thrust
-thrust    = obj.mass * R\(-g*[0 0 1]'+v) -1/obj.mass*R*F_arm;
+thrust    = obj.mass * R\(-g*[0 0 1]'+v);
 absThrust = min(obj.max_thrust,norm(thrust));
 thrust    = sign(thrust)*absThrust;
 

@@ -15,8 +15,6 @@ classdef (ConstructOnLoad) posControlEvntData < event.EventData
         position
         linear_vel
         linear_acc
-        arm_F
-        arm_M
         
         %-----------outputs-----------------
         % Output
@@ -40,8 +38,6 @@ classdef (ConstructOnLoad) posControlEvntData < event.EventData
             obj.position   = curr_state.position;
             obj.linear_vel = curr_state.linear_vel;
             obj.linear_acc = curr_state.linear_acc;
-            obj.arm_F = curr_state.arm_F;
-            obj.arm_M = curr_state.arm_M;
         end
 
 

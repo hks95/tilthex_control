@@ -27,7 +27,7 @@ classdef tilthexSimulator < handle
         function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point,desired_state)
 
             % Create figure and axes handle for the world and the captured image
-            obj.world_fig_handle = figure('Name', 'Quadrotor Simulator');
+            obj.world_fig_handle = figure('Name', 'TiltHexrotor Simulator');
             obj.world_axe_handle = axes('Parent', obj.world_fig_handle);
 
             % Scatter the features in the world

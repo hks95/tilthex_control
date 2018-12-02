@@ -68,21 +68,6 @@ hex_settings.initial_state.position    = [0 0 0]';
 hex_settings.initial_state.linear_vel  = [0 0 0]'; %[0 1 0]';
 hex_settings.initial_state.linear_acc  = [0 0 1]'; %[-1 0 1]';
 
-%% Initial state of arm
-hex_settings.arm_initial_state.theta1 = 0;
-hex_settings.arm_initial_state.theta2 = pi/10;
-hex_settings.arm_initial_state.theta3 = 2*pi/3;
-hex_settings.arm_initial_state.theta1_dot = 0;
-hex_settings.arm_initial_state.theta2_dot = 0;
-hex_settings.arm_initial_state.theta3_dot = 0;
-hex_settings.arm_initial_state.L0 = 0.078767;% vertical offset from the second motor to the base
-hex_settings.arm_initial_state.L1 =  0.020728; % horizontal offset from the z axis to the second motor'
-hex_settings.arm_initial_state.L2 = 0.107;
-hex_settings.arm_initial_state.L3 = 0.300;
-hex_settings.arm_initial_state.L4 = 0.320;
-hex_settings.arm_initial_state.F = [0;0;0];
-hex_settings.arm_initial_state.M = [0;0;0];
-
 %% Intialize the controller
 
 % Attitude controller

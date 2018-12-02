@@ -14,8 +14,6 @@ obj.curr_state.angular_acc = obj.robot.state.angular_acc;
 obj.curr_state.yaw         = obj.robot.state.yaw;
 obj.curr_state.pitch       = obj.robot.state.pitch;
 obj.curr_state.roll        = obj.robot.state.roll;
-obj.curr_state.arm_F = obj.robot.arm_state.F;
-obj.curr_state.arm_M = obj.robot.arm_state.M;
 
 %===================================================================
 %                       Trajectory Planning

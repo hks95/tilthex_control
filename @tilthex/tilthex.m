@@ -165,10 +165,10 @@ classdef tilthex < handle
            % Initialize the orientation and position of the quadrotor in
             % the world
             obj.state = hex_settings.initial_state;            
-            obj.arm_state = hex_settings.arm_initial_state;           
+%             obj.arm_state = hex_settings.arm_initial_state;           
             obj.desired_state = desired_state;
             
-            drawArm(obj);
+%             drawArm(obj);
             
         end
 
