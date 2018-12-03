@@ -72,6 +72,11 @@ dot_linear_vel   = g*[0 0 1]' + 1/modelParams.m*state.R*(Thrust); %in world fram
 skew_angular_vel = [ 0 -state.angular_vel(3) state.angular_vel(2); state.angular_vel(3) 0 -state.angular_vel(1); -state.angular_vel(2) state.angular_vel(1) 0];
 dot_R            = state.R * skew_angular_vel;
 
+theta = asin(-state.R(3, 1));
+psi   = atan2(state.R(2, 1), state.R(1, 1));
+phi  = atan2(state.R(3, 2), state.R(3, 3));
+
+dot_attitude = [1 sin(phi)*tan(theta) cos(phi)*tan(theta); 0 cos(phi) -sin(phi); 0 sin(phi)/cos(theta) cos(phi)/cos(theta)] * state.angular_vel; 
 dot_angular_vel  = modelParams.inertia_tensor \ (-cross(state.angular_vel,modelParams.inertia_tensor*state.angular_vel)); 
 
 
@@ -94,8 +99,8 @@ state.pitch = asin(-state.R(3, 1));
 state.yaw   = atan2(state.R(2, 1), state.R(1, 1));
 state.roll  = atan2(state.R(3, 2), state.R(3, 3));
 
-x_dot = [dot_position' dot_dot_linear_vel'];
-x_next = [state.position' state.linear_vel'];
+x_dot = [dot_position; dot_linear_vel;dot_attitude ; dot_angular_vel];
+x_next = [state.position; state.linear_vel; state.roll; state.pitch; state.yaw ;state.angular_vel ];
 % fprintf('pos %f %f %f\n',state.position(1,1),state.position(2,1),state.position(3,1));
 % fprintf('thrust %f %f %f\n',Thrust(1,1),Thrust(2,1),Thrust(3,1));
 % fprintf('torque %f %f %f\n',M_thrust(1,1),M_thrust(2,1),M_thrust(3,1));

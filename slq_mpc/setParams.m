@@ -15,11 +15,11 @@ function modelParams=setParams()
     modelParams.T=5; %N=T/dt
     modelParams.N=modelParams.T/modelParams.dt+1;
     
-    modelParams.Qt=eye(6);
-    modelParams.Qf=eye(6)*10;
-    modelParams.Rt=eye(6);
+    modelParams.Qt=eye(18);
+    modelParams.Qf=eye(18)*10;
+    modelParams.Rt=eye(18);
     
-    modelParams.x_init=[0;0;1;0;0;0];
+    modelParams.x_init=[0;0;1;0;0;0;0;0;0;0;0;0];
     modelParams.u_lim=2.5;
     
     modelParams.gen_traj=1;
@@ -35,7 +35,7 @@ function modelParams=setParams()
     modelParams.policy_lag=0;
     modelParams.Q_lqr=eye(6)*10;
     modelParams.mpc_steps=10;
-    modelParams.goal=[1.5;0.5;2;0;0;0];
+    modelParams.goal=[1.5;0.5;2;0;0;0;0;0;0;0;0;0];
     
 %     % waypoints params
 %     modelParams.wp_bool=0;
