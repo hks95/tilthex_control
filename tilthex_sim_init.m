@@ -79,7 +79,7 @@ atti_control_settings.max_torque = 120*ones(3, 1);
 atti_controller                  = controller.attiController(atti_control_settings);
 
 % Position controller
-pos_control_settings.Kp         =  100*eye(3);
+pos_control_settings.Kp         =  200*eye(3);
 pos_critical_damp               = 3.5*pos_control_settings.Kp*hex_settings.mass;
 pos_control_settings.Kd         = diag(sqrt(diag(pos_critical_damp)));
 pos_control_settings.mass       = hex_settings.mass;
