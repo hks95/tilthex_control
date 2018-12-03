@@ -1,26 +1,29 @@
 function [x,u]=generateTraj(modelParams, dynamics, x_goal)
 %% direct collocation for simple and augmented pendulum
 %initialize
-initial_traj=[zeros(1,modelParams.N); zeros(2, modelParams.N)];
 
-loss=@(initial_traj)costFunction(initial_traj,modelParams);
+% 6 inputs, 1 for each propeller
+% 12 states
+    initial_traj = [zeros(6,modelParams.N); zeros(12, modelParams.N)];
 
-A=[];
-b=[];
-Aeq=[];
-beq=[];
-lb=[repmat(-1*modelParams.u_lim, 1, modelParams.N) ;-inf(2, modelParams.N)];
-ub=[repmat(1*modelParams.u_lim, 1, modelParams.N) ;inf(2, modelParams.N)];
+    loss = @(initial_traj)costFunction(initial_traj,modelParams);
 
-nonlin_constraints=@(initial_traj)nonlincst(initial_traj,dynamics, x_goal,modelParams);
+    A=[];
+    b=[];
+    Aeq=[];
+    beq=[];
+    lb = [repmat(-1*modelParams.u_lim, 6, modelParams.N) ;-inf(12, modelParams.N)];
+    ub = [repmat(1*modelParams.u_lim, 6, modelParams.N) ;inf(12, modelParams.N)];
 
-options =optimoptions(@fmincon,'TolFun', 0.00000001,'MaxIter', 10000, ...
-    'MaxFunEvals', 100000,'Display','iter', ...
-    'DiffMinChange', 0.001,'Algorithm', 'sqp');
+    nonlin_constraints = @(initial_traj)nonlincst(initial_traj, dynamics, x_goal,modelParams);
 
-[nom_traj,fval,ef,op]=fmincon(loss, initial_traj, A,b,Aeq,beq,...
-    lb,ub,nonlin_constraints,options);
+    options =optimoptions(@fmincon,'TolFun', 0.00000001,'MaxIter', 10000, ...
+                          'MaxFunEvals', 100000,'Display','iter', ...
+                          'DiffMinChange', 0.001,'Algorithm', 'sqp');
 
-x=nom_traj(2:3,:);
-u=nom_traj(1,:);
+    [nom_traj, fval, ef, op]=fmincon(loss, initial_traj, A, b, Aeq, beq,...
+                                     lb, ub, nonlin_constraints, options);
+
+    u=nom_traj(1:6,:);
+    x=nom_traj(7:18,:);
 end

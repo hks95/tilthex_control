@@ -170,48 +170,41 @@ while max_iter < 100
         l(ricatti_iter) = -inv(H)*g;
         
         %p1-2x2
-        p1(:,:,ricatti_iter) = Q + ...
-            A(:,:,ricatti_iter)'*p1(:,:,ricatti_iter+1)*A(:,:,ricatti_iter) ...
-            + K(ricatti_iter,:)'*H*K(ricatti_iter,:) + ...
-            + K(ricatti_iter,:)'*G + G'*K(ricatti_iter,:);
+        p1(:,:,ricatti_iter) = Q+...
+            A(:,:,ricatti_iter)'*p1(:,:,ricatti_iter+1)*A(:,:,ricatti_iter)...
+            +K(ricatti_iter,:)'*H*K(ricatti_iter,:)+...
+            +K(ricatti_iter,:)'*G+ G'*K(ricatti_iter,:);
         
         %p2-2x1
-        p2(:,ricatti_iter)=q_t(:,ricatti_iter) + ...
-            A(:,:,ricatti_iter)'*p2(:,ricatti_iter+1) ...
-            + 2*K(ricatti_iter,:)'*H*l(ricatti_iter) + ...
-            K(ricatti_iter,:)'*g + ...
+        p2(:,ricatti_iter)=q_t(:,ricatti_iter)+...
+            A(:,:,ricatti_iter)'*p2(:,ricatti_iter+1)...
+            + 2*K(ricatti_iter,:)'*H*l(ricatti_iter)+...
+            K(ricatti_iter,:)'*g+...
             2*G'*l(ricatti_iter);
     end
     
     %%Line Search
     alpha=1;
-    
-    for ls_iter = 1:modelParams.ls_steps
-        act_traj.x(:,1) = modelParams.x_init;
-        for sim_iter = 1:modelParams.N-1
-            x_diff = act_traj.x(:,sim_iter) - nom_traj.x(:,sim_iter);
-            
+    for ls_iter=1:modelParams.ls_steps
+        act_traj.x(:,1)=modelParams.x_init;
+        for sim_iter=1:modelParams.N-1
+            x_diff=act_traj.x(:,sim_iter)-nom_traj.x(:,sim_iter);
             % I think here wrapToPi should not be done
             act_traj.u(sim_iter)= nom_traj.u(sim_iter)+alpha*l(sim_iter)+...
                 K(sim_iter,:)*(x_diff);
-            if abs(act_traj.u(sim_iter)) > modelParams.u_lim
-                act_traj.u(sim_iter) = sign(act_traj.u(sim_iter))*modelParams.u_lim;
+            if abs(act_traj.u(sim_iter))>modelParams.u_lim
+                act_traj.u(sim_iter)=sign(act_traj.u(sim_iter))*modelParams.u_lim;
             end
-            
-            [~, act_traj.x(:,sim_iter+1)] = simplePendDynamics(act_traj.x(:,sim_iter),...
-                act_traj.u(sim_iter), modelParams);
+            [~,act_traj.x(:,sim_iter+1)]=simplePendDynamics(act_traj.x(:,sim_iter),...
+                act_traj.u(sim_iter),modelParams);
         end
-        
-        act_traj.u(modelParams.N) = 0;
-        J_actual = computeActualCost(act_traj, des_traj, modelParams);
-        
-        if J_actual < J_nom
-            t_complete = toc(t_start);
-            
+        act_traj.u(modelParams.N)=0;
+        J_actual=computeActualCost(act_traj,des_traj,modelParams);
+        if J_actual<J_nom
+            t_complete=toc(t_start);
             if modelParams.printf
                 fprintf("the time taken by this iteration = %f \n",t_complete);
             end
-            
             u_ff=alpha*l;
             u_fb=K;
             break
