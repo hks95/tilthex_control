@@ -44,6 +44,8 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     A_0 = double(A_0);
     B_0 = double(B_0);
     
+%     [A_0,B_0]=linDynamics(modelParams,curr_traj);
+
     % compute LQR at linearized state
     [K_0,~]=lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);
 
@@ -51,6 +53,7 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     x_desired=modelParams.goal;
     nom_traj.x(:,1)=curr_state;
     nom_traj.u=zeros(1,modelParams.N);
+    
     for fwd_iter=1:modelParams.N-1
         nom_traj.u(fwd_iter)=-K_0*(nom_traj.x(:,fwd_iter)-x_desired);
         [~,nom_traj.x(:,fwd_iter+1)]=simplePendDynamics(nom_traj.x(:,fwd_iter), nom_traj.u(fwd_iter), modelParams);
@@ -62,7 +65,10 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     modelParams.viz=0;
     modelParams.printf=0;
     slq_time=tic;
-    [nomTraj, u_ff, u_fb]=slq_algo1(nom_traj,modelParams, u_ff, u_fb);
+%     [nomTraj, u_ff, u_fb]=slq_algo1(nom_traj,modelParams, u_ff, u_fb);
+    [nomTraj, u_ff, u_fb]=slq_algo1();  % chris and andrew
+    
+    
     slq_done=toc(slq_time);
     mpc_done=toc(mpc_start); %equivalent to t_lag
     t_lag=mpc_done;

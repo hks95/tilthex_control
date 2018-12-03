@@ -13,29 +13,30 @@ function modelParams=setParams()
     
     modelParams.dt=0.05;
     modelParams.T=5; %N=T/dt
-    modelParams.N=modelParams.T/modelParams.dt+1;
+    modelParams.N = modelParams.T/modelParams.dt+1;  % number of timesteps
     
-    modelParams.Qt=eye(18);
-    modelParams.Qf=eye(18)*10;
-    modelParams.Rt=eye(18);
+    modelParams.Qt=eye(12);
+    modelParams.Qf=eye(12)*10;
+    modelParams.Rt=eye(12);
     
-    modelParams.x_init=[0;0;1;0;0;0;0;0;0;0;0;0];
-    modelParams.u_lim=2.5;
+    modelParams.x_init = [0;0;1;0;0;0;0;0;0;0;0;0];
+    modelParams.u_lim = 2.5;
     
-    modelParams.gen_traj=1;
-    modelParams.viz=1;
-    modelParams.printf=1;
-    modelParams.ls_steps=10;
-    modelParams.alpha_d=1.1;
+    modelParams.gen_traj = 1;
+    modelParams.viz = 1;
+    modelParams.printf = 1;
+    modelParams.ls_steps = 10;
+    modelParams.alpha_d = 1.1;
     
-    modelParams.traj_track=0; % 0 if goal tracking
+    modelParams.traj_track = 0; % 0 if goal tracking
     
 %% algo 2
 
-    modelParams.policy_lag=0;
-    modelParams.Q_lqr=eye(6)*10;
-    modelParams.mpc_steps=10;
-    modelParams.goal=[1.5;0.5;2;0;0;0;0;0;0;0;0;0];
+    modelParams.policy_lag = 0;
+    modelParams.Q_lqr = eye(12)*10;  % SUS
+    modelParams.mpc_steps = 10;
+    modelParams.goal = [1.5;0.5;2;0;0;0;0;0;0;0;0;0];
+    modelParams.nom = [-1.5;-0.5;2;0;0;0;0;0;0;0;0;0];
     
 %     % waypoints params
 %     modelParams.wp_bool=0;
