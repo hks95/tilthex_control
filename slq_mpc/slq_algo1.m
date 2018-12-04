@@ -15,8 +15,8 @@ end
 converged=0;
 
 %% handles for dynamics
-simple_pend=@(x,u)simplePendDynamics(x,u, modelParams);
-aug_pend=@(x,u)augPendDynamics(x,u, modelParams);
+simple_pend=@(x,u)tilthex_dynamics(x,u, modelParams);
+aug_pend=@(x,u)tilthex_dynamics(x,u, modelParams);
 
 %% generate trajectory
 %to get the full trajectory- add x_init in each traj.x
