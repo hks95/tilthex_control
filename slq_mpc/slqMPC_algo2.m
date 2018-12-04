@@ -4,10 +4,13 @@ function slqMPC_algo2
 % all variables-underscore
 close all
 modelParams=setParams();
-
+Jacobian_x = load('Jacobian_x.mat');
+Jacobian_u = load('Jacobian_u.mat');
+J_x = Jacobian_x.J_x;
+J_u = Jacobian_u.J_u;
 %% initialization
 actTraj.x=modelParams.x_init;
-actTraj.u=0;
+actTraj.u=zeros(6,1);
 u_ff=zeros(1,modelParams.N-1);
 u_fb=zeros(modelParams.N-1,2);
 mpc_iter=0;
@@ -35,8 +38,13 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     % linearize dynamics about curr_state and curr_input
     curr_traj.x=curr_state;
     curr_traj.u=curr_input;
+    tic
+    [A_0,B_0]=linDynamics(modelParams,curr_traj,'discrete',J_x,J_u);
+    toc
+    A_0 = double(A_0);
+    B_0 = double(B_0);
     
-    [A_0,B_0]=linDynamics(modelParams,curr_traj);
+%     [A_0,B_0]=linDynamics(modelParams,curr_traj);
 
     % compute LQR at linearized state
     [K_0,~]=lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);

@@ -1,6 +1,6 @@
 % Dynamics of tilted hexarotor
 
-function [x_dot,x_next ] = tilthex_dynamics(state,input,modelParams)
+function [x_dot,x_next ] = tilthex_dynamics(x,u,modelParams)
 %DYNAMICS simulates the dynamics of the tilted hexarotor
 %
 %-----------input--------------
@@ -10,9 +10,9 @@ function [x_dot,x_next ] = tilthex_dynamics(state,input,modelParams)
 
 % Gravity acceleration
 
-g = 9.8;
+g = modelParams.g;
 Kt=2.98e-06; Kd=.0382;
-
+dt = modelParams.dt;
 % convert FRD to XYZ
 R1 = [cosd(90) sind(90) 0;-sind(90) cosd(90) 0;0 0 1];
 R2 = [cosd(180) 0 sind(180);0 1 0;-sind(180) 0 cosd(180)];
@@ -57,11 +57,26 @@ Rt = R1*R2;
 % drag
 % gyroscopic effect
 
-Thrust = input.thrust;
-M_thrust = input.torque;
+Thrust = u(1:3,1);
+M_thrust = u(4:6,1);
 
-% Thrust = [0;0;0];
-% M_thrust = [0;0;0]; 
+% just creating struct because the rest was written this way
+state.position = x(1:3,1);
+state.linear_vel = x(4:6,1);
+state.roll = x(7,1);
+state.pitch = x(8,1);
+state.yaw = x(9,1);
+state.angular_vel = x(10:12,1);
+
+state.R(1,1) = cos(state.yaw)*cos(state.pitch);
+state.R(1,2) = cos(state.yaw)*cos(state.pitch)*sin(state.roll) - sin(state.yaw)*cos(state.roll);
+state.R(1,3) = cos(state.yaw)*sin(state.pitch)*cos(state.roll) + sin(state.yaw)*sin(state.roll);
+state.R(2,1) = sin(state.yaw)*cos(state.pitch);
+state.R(2,2) = sin(state.yaw)*sin(state.pitch)*sin(state.roll) + cos(state.yaw)*cos(state.roll);
+state.R(2,3) = sin(state.yaw)*sin(state.pitch)*cos(state.roll) - cos(state.yaw)*sin(state.roll);
+state.R(3,1) = -sin(state.pitch);
+state.R(3,2) = cos(state.pitch)*sin(state.roll);
+state.R(3,3) = cos(state.pitch)*cos(state.roll);
 
 % Dynamics of the quadrotor
 dot_position     = state.linear_vel;
@@ -72,11 +87,7 @@ dot_linear_vel   = g*[0 0 1]' + 1/modelParams.m*state.R*(Thrust); %in world fram
 skew_angular_vel = [ 0 -state.angular_vel(3) state.angular_vel(2); state.angular_vel(3) 0 -state.angular_vel(1); -state.angular_vel(2) state.angular_vel(1) 0];
 dot_R            = state.R * skew_angular_vel;
 
-theta = asin(-state.R(3, 1));
-psi   = atan2(state.R(2, 1), state.R(1, 1));
-phi  = atan2(state.R(3, 2), state.R(3, 3));
-
-dot_attitude = [1 sin(phi)*tan(theta) cos(phi)*tan(theta); 0 cos(phi) -sin(phi); 0 sin(phi)/cos(theta) cos(phi)/cos(theta)] * state.angular_vel; 
+dot_attitude = [1 sin(state.roll)*tan(state.pitch) cos(state.roll)*tan(state.pitch); 0 cos(state.roll) -sin(state.roll); 0 sin(state.roll)/cos(state.pitch) cos(state.roll)/cos(state.pitch)] * state.angular_vel; 
 dot_angular_vel  = modelParams.inertia_tensor \ (-cross(state.angular_vel,modelParams.inertia_tensor*state.angular_vel)); 
 
 
