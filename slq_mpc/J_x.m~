@@ -1,0 +1,41 @@
+function out = J_x(x)
+
+    x1 = x(1);
+    x2 = x(2);
+    x3 = x(3);
+    x4 = x(4);
+    x5 = x(5);
+    x6 = x(6);
+    x7 = x(7);
+    x8 = x(8);
+    x9 = x(9);
+    x10 = x(10);
+    x11 = x(11);
+    x12 = x(12);
+    
+    % column 1
+    out(:,1) = zeros(12,1);
+    
+    % column 2
+    out(:,2) = zeros(12,1);
+    
+    % column 3
+    out(:,3) = zeros(12,1)
+    
+    % column 4
+    out(1,4) = 1;
+    out(2:12,4) = zeros(11,1);
+    
+    % column 5
+    out(1,5) = 0;
+    out(2,5) = 1;
+    out(3:12,5) = zeros(10,1);
+    
+    % column 6
+    
+    
+    
+
+
+
+end
