@@ -55,8 +55,8 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     nom_traj.u=zeros(6,modelParams.N);
     
     for fwd_iter=1:modelParams.N-1
-        nom_traj.u(:,fwd_iter)=-K_0*(nom_traj.x(:,fwd_iter)-x_desired);
-        [~,nom_traj.x(:,fwd_iter+1)]=tilthex_dynamics(nom_traj.x(:,fwd_iter), nom_traj.u(:,fwd_iter), modelParams);
+        nom_traj.u(fwd_iter)=-K_0*(nom_traj.x(:,fwd_iter)-x_desired);
+        [~,nom_traj.x(:,fwd_iter+1)]=tilthex_dynamics(nom_traj.x(:,fwd_iter), nom_traj.u(fwd_iter), modelParams);
     end
     
     %% solve using SLQ
