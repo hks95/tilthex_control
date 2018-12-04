@@ -17,7 +17,7 @@ function modelParams=setParams()
     
     modelParams.Qt=eye(12);
     modelParams.Qf=eye(12)*10;
-    modelParams.Rt=eye(12);
+    modelParams.Rt=10*eye(6); %andrew: is this right? SUS!
     
     modelParams.x_init = [0;0;1;0;0;0;0;0;0;0;0;0];
     modelParams.u_lim = 2.5;

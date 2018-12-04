@@ -3,6 +3,7 @@ function delta = hermiteSimpsonDefects(xNext,u, dynamics, modelParams)
     xLow = xNext(:,1:(end-1));
     xHi = xNext(:,2:end);
     
+    %THIS ISN'T WORKING
     [xdot, ~] = dynamics(xNext, u);  %no time dependence
     
     xdotLow = xdot(:,1:(end-1));
