@@ -1,6 +1,6 @@
 %% linearization of system dynamics at trajectory points
     %returns A 2x2xN B 2xN
-% function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti)
+function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti)
 function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti, Jacobian_x,Jacobian_u)
     
     syms x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 u1 u2 u3 u4 u5 u6
@@ -10,13 +10,14 @@ function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti, Jacobian_x,Jacob
 %             fuck = 1
 %         end
         
-%          A(:,:,traj_iter) = subs(Jacobian_x,[x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 u1 u2 u3 u4 u5 u6],[trajectory.x', trajectory.u']);
-%          B(:,:,traj_iter) = subs(Jacobian_u,[x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 u1 u2 u3 u4 u5 u6],[trajectory.x', trajectory.u']);
-
+         A(:,:,traj_iter) = subs(Jacobian_x,[x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 u1 u2 u3 u4 u5 u6],[trajectory.x', trajectory.u']);
+         B(:,:,traj_iter) = subs(Jacobian_u,[x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 u1 u2 u3 u4 u5 u6],[trajectory.x', trajectory.u']);
+         A_0 = double(A_0);
+         B_0 = double(B_0);
          
          A(:,:,traj_iter) = J_x(trajectory.x, trajectory.u);
          B(:,:,traj_iter) = J_u(trajectory.x);
-%          
+         
 %          if double(A(:,:,traj_iter)) ~= sus_A(:,:,traj_iter)
 %             fuck = 1 
 %          end
@@ -35,6 +36,4 @@ function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti, Jacobian_x,Jacob
     %     end
 
     end
-    A = double(A);
-    B = double(B);
 end

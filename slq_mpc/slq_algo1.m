@@ -3,6 +3,11 @@ function [act_traj,u_ff, u_fb]=slq_algo1(nom_traj,modelParams, u_ff_prev, u_fb_p
 % all functions, structs and classes- Camel case
 % all variables-underscore
 
+Jacobian_x = load('Jacobian_x.mat');
+Jacobian_u = load('Jacobian_u.mat');
+J_x = Jacobian_x.J_x;
+J_u = Jacobian_u.J_u;
+
 close all
 set(0,'DefaultFigureWindowStyle','docked');
 %% main
@@ -123,7 +128,8 @@ while max_iter < 100
     end
     
     % linearize the dynamics
-    [A, B] = linDynamics(modelParams,nom_traj,'discrete');
+%     [A, B] = linDynamics(modelParams,nom_traj,'discrete'); %TODO: add J_x, J_u!!!
+    [A, B] = linDynamics(modelParams,nom_traj,'discrete', J_x, J_u); 
     
     %compute cost function
     J_nom = computeActualCost(nom_traj, des_traj, modelParams);

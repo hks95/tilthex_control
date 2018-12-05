@@ -24,21 +24,21 @@ function out = J_u (x)
     
     % column 2
 %     out(1:3,2) = zeros(3,1);
-    out(4,1) = (cos(x8)*cos(x9)*sin(x7))/2 - (cos(x7)*sin(x9))/2;
-    out(5,1) = (cos(x7)*cos(x9))/2 + (sin(x7)*sin(x8)*sin(x9))/2;
-    out(6,1) = (cos(x8)*sin(x7))/2;
+    out(4,2) = (cos(x8)*cos(x9)*sin(x7))/2 - (cos(x7)*sin(x9))/2;
+    out(5,2) = (cos(x7)*cos(x9))/2 + (sin(x7)*sin(x8)*sin(x9))/2;
+    out(6,2) = (cos(x8)*sin(x7))/2;
 %     out(7:12,2) = zeros(6,1);
     
     % column 3
 %     out(1:3,3) = zeros(3,1);
-    out(4,1) = (sin(x7)*sin(x9))/2 + (cos(x7)*cos(x9)*sin(x8))/2;
-    out(5,1) = (cos(x7)*sin(x8)*sin(x9))/2 - (cos(x9)*sin(x7))/2;
-    out(6,1) = (cos(x7)*cos(x8))/2;
+    out(4,3) = (sin(x7)*sin(x9))/2 + (cos(x7)*cos(x9)*sin(x8))/2;
+    out(5,3) = (cos(x7)*sin(x8)*sin(x9))/2 - (cos(x9)*sin(x7))/2;
+    out(6,3) = (cos(x7)*cos(x8))/2;
 %     out(7:12,3) = zeros(6,1);
     
     % column 4
 %     out(1:9,4) = zeros(9,1);
-    out(10,4) = 90.9091
+    out(10,4) = 90.9091;
 %     out(10,4) = 332041393326771929088/3652455326594490625;
 %     out(11:12,4) = zeros(2,1);
     

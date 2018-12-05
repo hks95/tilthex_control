@@ -12,22 +12,22 @@ function modelParams=setParams()
     modelParams.c=1;
     
     modelParams.dt=0.05;
-    modelParams.T=5; %N=T/dt
+    modelParams.T=1; %N=T/dt
     modelParams.N = modelParams.T/modelParams.dt+1;  % number of timesteps
     
     modelParams.Qt=eye(12);
     modelParams.Qf=eye(12)*10;
-    modelParams.Rt=10*eye(6); %andrew: is this right? SUS!
+    modelParams.Rt=1*eye(6); %andrew: is this right? SUS!
     
     modelParams.x_init = [0;0;1;0;0;0;0;0;0;0;0;0];
     modelParams.u_lim = 2.5;
     
     modelParams.gen_traj = 1;
-    modelParams.viz = 1;
+    modelParams.viz = 0;
     modelParams.printf = 1;
     modelParams.ls_steps = 10;
     modelParams.alpha_d = 1.1;
-    
+    modelParams.wp_bool = false;
     modelParams.traj_track = 0; % 0 if goal tracking
     
 %% algo 2
@@ -40,7 +40,7 @@ function modelParams=setParams()
     
 %     % waypoints params
 %     modelParams.wp_bool=0;
-%     modelParams.num_wp=1;
+    modelParams.num_wp=1;
 %     modelParams.states = [pi/2 ;...
 %                             0 ];
 %     modelParams.rho_p  = [100];
