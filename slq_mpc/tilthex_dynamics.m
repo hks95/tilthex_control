@@ -111,6 +111,9 @@ for i = 2:size(x_next,2)
     state.R = state.R + dot_R*dt;
     % Project the new rotation matrix to SO(3)
     % in order to get rid of the numerical error
+    skew_angular_vel
+%     dot_R
+%     state.R
     [U, ~, V] = svd(state.R);
     state.R = U*V';
 

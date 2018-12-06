@@ -1,0 +1,32 @@
+J_x =
+ 
+[ 0, 0, 0, 1, 0, 0,                                                                                                         0,                                                                                        0,                                                                                                                                0,   0,               0,               0]
+[ 0, 0, 0, 0, 1, 0,                                                                                                         0,                                                                                        0,                                                                                                                                0,   0,               0,               0]
+[ 0, 0, 0, 0, 0, 1,                                                                                                         0,                                                                                        0,                                                                                                                                0,   0,               0,               0]
+[ 0, 0, 0, 0, 0, 0,   (u2*(sin(x7)*sin(x9) + cos(x7)*cos(x9)*sin(x8)))/2 + (u3*(cos(x7)*sin(x9) - cos(x9)*sin(x7)*sin(x8)))/2, (u3*cos(x7)*cos(x8)*cos(x9))/2 - (u1*cos(x9)*sin(x8))/2 + (u2*cos(x8)*cos(x9)*sin(x7))/2, (u3*(cos(x9)*sin(x7) - cos(x7)*sin(x8)*sin(x9)))/2 - (u2*(cos(x7)*cos(x9) + sin(x7)*sin(x8)*sin(x9)))/2 - (u1*cos(x8)*sin(x9))/2,   0,               0,               0]
+[ 0, 0, 0, 0, 0, 0, - (u2*(cos(x9)*sin(x7) - cos(x7)*sin(x8)*sin(x9)))/2 - (u3*(cos(x7)*cos(x9) + sin(x7)*sin(x8)*sin(x9)))/2, (u3*cos(x7)*cos(x8)*sin(x9))/2 - (u1*sin(x8)*sin(x9))/2 + (u2*cos(x8)*sin(x7)*sin(x9))/2, (u3*(sin(x7)*sin(x9) + cos(x7)*cos(x9)*sin(x8)))/2 - (u2*(cos(x7)*sin(x9) - cos(x9)*sin(x7)*sin(x8)))/2 + (u1*cos(x8)*cos(x9))/2,   0,               0,               0]
+[ 0, 0, 0, 0, 0, 0,                                                           (u2*cos(x7)*cos(x8))/2 - (u3*cos(x8)*sin(x7))/2,                       - (u1*cos(x8))/2 - (u3*cos(x7)*sin(x8))/2 - (u2*sin(x7)*sin(x8))/2,                                                                                                                                0,   0,               0,               0]
+[ 0, 0, 0, 0, 0, 0,                                                                 x11*cos(x7)*tan(x8) - x12*sin(x7)*tan(x8),                                x12*cos(x7)*(tan(x8)^2 + 1) + x11*sin(x7)*(tan(x8)^2 + 1),                                                                                                                                0,   1, sin(x7)*tan(x8), cos(x7)*tan(x8)]
+[ 0, 0, 0, 0, 0, 0,                                                                               - x12*cos(x7) - x11*sin(x7),                                                                                        0,                                                                                                                                0,   0,         cos(x7),        -sin(x7)]
+[ 0, 0, 0, 0, 0, 0,                                                             (x11*cos(x7))/cos(x8) - (x12*sin(x7))/cos(x8),                        (x12*cos(x7)*sin(x8))/cos(x8)^2 + (x11*sin(x7)*sin(x8))/cos(x8)^2,                                                                                                                                0,   0, sin(x7)/cos(x8), cos(x7)/cos(x8)]
+[ 0, 0, 0, 0, 0, 0,                                                                                                         0,                                                                                        0,                                                                                                                                0,   0,            -x12,            -x11]
+[ 0, 0, 0, 0, 0, 0,                                                                                                         0,                                                                                        0,                                                                                                                                0, x12,               0,             x10]
+[ 0, 0, 0, 0, 0, 0,                                                                                                         0,                                                                                        0,                                                                                                                                0,   0,               0,               0]
+
+
+
+
+J_u = 
+
+[                   0,                                                 0,                                                 0,  0,  0,  0]
+[                   0,                                                 0,                                                 0,  0,  0,  0]
+[                   0,                                                 0,                                                 0,  0,  0,  0]
+[ (cos(x8)*cos(x9))/2, (cos(x9)*sin(x7)*sin(x8))/2 - (cos(x7)*sin(x9))/2, (sin(x7)*sin(x9))/2 + (cos(x7)*cos(x9)*sin(x8))/2,  0,  0,  0]
+[ (cos(x8)*sin(x9))/2, (cos(x7)*cos(x9))/2 + (sin(x7)*sin(x8)*sin(x9))/2, (cos(x7)*sin(x8)*sin(x9))/2 - (cos(x9)*sin(x7))/2,  0,  0,  0]
+[          -sin(x8)/2,                               (cos(x8)*sin(x7))/2,                               (cos(x7)*cos(x8))/2,  0,  0,  0]
+[                   0,                                                 0,                                                 0,  0,  0,  0]
+[                   0,                                                 0,                                                 0,  0,  0,  0]
+[                   0,                                                 0,                                                 0,  0,  0,  0]
+[                   0,                                                 0,                                                 0, 20,  0,  0]
+[                   0,                                                 0,                                                 0,  0, 20,  0]
+[                   0,                                                 0,                                                 0,  0,  0, 10]

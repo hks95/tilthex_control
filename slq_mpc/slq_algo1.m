@@ -181,7 +181,7 @@ while max_iter < 100
         % [6x6][6x12]
         
         %l - scalar
-        l(:,ricatti_iter) = -inv(H)*g
+        l(:,ricatti_iter) = -inv(H)*g;
         % [6x6][6x1]
         % l = [6x1]
         
@@ -218,7 +218,7 @@ while max_iter < 100
 
             [~, act_traj.x(:,sim_iter+1)] = tilthex_dynamics(act_traj.x(:,sim_iter),...
                 act_traj.u(:,sim_iter), modelParams);
-            act_traj.x(:,sim_iter+1)
+            act_traj.x(:,sim_iter+1);
         end
         
         act_traj.u(:,modelParams.N) = 0;
