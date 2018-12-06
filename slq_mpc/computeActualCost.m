@@ -7,13 +7,13 @@ function J=computeActualCost(actual_traj,desired_traj,modelParams)
 %     x_diff(1,:) = wrapToPi(x_diff(1,:));
     u_diff = actual_traj.u-desired_traj.u;
     
-    J=x_diff(:,end)'*modelParams.Qf*x_diff(:,end);
+    J = x_diff(:,end)'*modelParams.Qf*x_diff(:,end);
     for inst_iter=1:modelParams.N-1
-        J=J+x_diff(:,inst_iter)'*modelParams.Qt*x_diff(:, inst_iter)...
+        J = J + x_diff(:,inst_iter)'*modelParams.Qt*x_diff(:, inst_iter)...
             +(u_diff(inst_iter)-u_diff(inst_iter+1))'*modelParams.Rt*(u_diff(inst_iter)-u_diff(inst_iter+1));
-        if modelParams.wp_bool
-             wp=init_waypoints(modelParams); %added by Andrew
-            J=J+waypointCost(actual_traj.x(:,inst_iter),inst_iter*modelParams.dt,wp,modelParams);
-        end
+%         if modelParams.wp_bool
+%              wp=init_waypoints(modelParams); %added by Andrew
+%             J=J+waypointCost(actual_traj.x(:,inst_iter),inst_iter*modelParams.dt,wp,modelParams);
+%         end
     end    
 end

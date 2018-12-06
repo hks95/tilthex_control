@@ -1,6 +1,6 @@
 % Dynamics of tilted hexarotor
 
-function [x_dot,x_next ] = tilthex_dynamics(x,u,modelParams)
+function [x_dot,x_next ] = tilthex_dynamics(x, u, modelParams)
 %DYNAMICS simulates the dynamics of the tilted hexarotor
 %
 %-----------input--------------
@@ -11,11 +11,17 @@ function [x_dot,x_next ] = tilthex_dynamics(x,u,modelParams)
 % Gravity acceleration
 
 g = modelParams.g;
-Kt=2.98e-06; Kd=.0382;
+Kt = 2.98e-06; Kd = 0.0382;
 dt = modelParams.dt;
 % convert FRD to XYZ
-R1 = [cosd(90) sind(90) 0;-sind(90) cosd(90) 0;0 0 1];
-R2 = [cosd(180) 0 sind(180);0 1 0;-sind(180) 0 cosd(180)];
+R1 = [cosd(90) sind(90) 0; ...
+     -sind(90) cosd(90) 0; ...
+     0 0 1];
+ 
+R2 = [cosd(180) 0 sind(180); ...
+      0 1 0; ...
+      -sind(180) 0 cosd(180)];
+  
 Rt = R1*R2;
 
 % % Thrust for each rotor in body frame

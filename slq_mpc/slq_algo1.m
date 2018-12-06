@@ -1,4 +1,4 @@
-function [act_traj, u_ff, u_fb]=slq_algo1(nom_traj,modelParams, u_ff_prev, u_fb_prev)
+function [act_traj, u_ff, u_fb]=slq_algo1(nom_traj, modelParams, u_ff_prev, u_fb_prev)
 %% writing a good code
 % all functions, structs and classes- Camel case
 % all variables-underscore
@@ -20,8 +20,8 @@ end
 converged=0;
 
 %% handles for dynamics
-simple_pend=@(x,u)tilthex_dynamics(x,u, modelParams);
-aug_pend=@(x,u)tilthex_dynamics(x,u, modelParams);
+simple_pend = @(x,u)tilthex_dynamics(x,u, modelParams);
+aug_pend = @(x,u)tilthex_dynamics(x,u, modelParams);
 
 %% generate trajectory
 %to get the full trajectory- add x_init in each traj.x
@@ -230,8 +230,8 @@ while max_iter < 100
                 fprintf("the time taken by this iteration = %f \n",t_complete);
             end
             
-            u_ff=alpha*l;
-            u_fb=K;
+            u_ff = alpha*l;
+            u_fb = K;
             break;
             
         elseif ls_iter==modelParams.ls_steps && all(J_actual(:)>=J_nom(:))

@@ -12,7 +12,7 @@ modelParams=setParams();
 %% initialization
 actTraj.x=modelParams.x_init;
 actTraj.u=zeros(6,1);
-u_ff=zeros(1,modelParams.N-1);
+u_ff=zeros(6, modelParams.N-1);
 u_fb=zeros(modelParams.N-1,2);
 mpc_iter=0;
 % N_initial=modelParams.N;
@@ -62,18 +62,18 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     modelParams.viz=0;
     modelParams.printf=0;
     slq_time=tic;
-%     [nomTraj, u_ff, u_fb]=slq_algo1(nom_traj,modelParams, u_ff, u_fb);
-    [nomTraj, u_ff, u_fb]=slq_algo1();  % chris and andrew
+    [nomTraj, u_ff, u_fb] = slq_algo1(nom_traj, modelParams, u_ff, u_fb);
+%     [nomTraj, u_ff, u_fb] = slq_algo1();  % chris and andrew
     
     
-    slq_done=toc(slq_time);
-    mpc_done=toc(mpc_start); %equivalent to t_lag
-    t_lag=mpc_done;
-    time_elapsed=t_lag*2;
+    slq_done = toc(slq_time);
+    mpc_done = toc(mpc_start); %equivalent to t_lag
+    t_lag = mpc_done;
+    time_elapsed = t_lag*2;
     fprintf("the time taken by this MPC iteration = %f  time horizon = %d \n",mpc_done, modelParams.T);
     
     % send control to closed loop controller
-    actTrajPart=realPendDynamics(ceil(time_elapsed), modelParams.x_init, nomTraj, u_ff, u_fb, modelParams);
+    actTrajPart = realPendDynamics(ceil(time_elapsed), modelParams.x_init, nomTraj, u_ff, u_fb, modelParams);
     actTraj.x=[actTraj.x actTrajPart.x];
     actTraj.u=[actTraj.u actTrajPart.u];
     mpc_iter=mpc_iter+1;

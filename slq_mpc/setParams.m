@@ -12,11 +12,11 @@ function modelParams=setParams()
     modelParams.c=1;
     
     modelParams.dt=0.05;
-    modelParams.T=1; %N=T/dt
+    modelParams.T = 1; %N=T/dt
     modelParams.N = modelParams.T/modelParams.dt+1;  % number of timesteps
     
     modelParams.Qt=eye(12);
-    modelParams.Qf=eye(12)*10;
+    modelParams.Qf=eye(12);
     modelParams.Rt=1*eye(6); %andrew: is this right? SUS!
     
     modelParams.x_init = [0;0;1;0;0;0;0;0;0;0;0;0];
