@@ -161,16 +161,17 @@ while max_iter < 100
     for ricatti_iter = modelParams.N-1:-1:1
         
         %H-scalar
+        %SHOULD BE A SCALAR I THINK???
         H = R + B(:,ricatti_iter)'*p1(:,:,ricatti_iter+1)*B(:,ricatti_iter);
         
-        %G-1x2
+        %G-1x12
         G = B(:,ricatti_iter)'*p1(:,:,ricatti_iter+1)*A(:,:,ricatti_iter);
         
         %g-scalar
         g = r_t(ricatti_iter)+B(:,ricatti_iter)'*p2(:,ricatti_iter+1);
         
-        %K-1x2
-        K(ricatti_iter,:) = -inv(H)*G;
+        %K-1x12
+        K(ricatti_iter,:) = -inv(H)*G;  %DIMENSION MISMATCH
         
         %l-scalar
         l(ricatti_iter) = -inv(H)*g;

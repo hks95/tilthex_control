@@ -39,7 +39,7 @@ function modelParams=setParams()
     modelParams.nom = [-1.5;-0.5;2;0;0;0;0;0;0;0;0;0];
     
 %     % waypoints params
-%     modelParams.wp_bool=0;
+    modelParams.wp_bool=0;
     modelParams.num_wp=1;
 %     modelParams.states = [pi/2 ;...
 %                             0 ];
