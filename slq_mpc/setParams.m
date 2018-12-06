@@ -17,10 +17,10 @@ function modelParams=setParams()
     
     modelParams.Qt=eye(12);
     modelParams.Qf=eye(12);
-    modelParams.Rt=1*eye(6); %andrew: is this right? SUS!
+    modelParams.Rt=eye(6); %andrew: is this right? SUS!
     
-    modelParams.x_init = [0;0;1;0;0;0;0;0;0;0;0;0];
-    modelParams.u_lim = 2.5;
+    modelParams.x_init = [0;0;2;0;0;0;0;0;0;0;0;0];
+    modelParams.u_lim = 2*2*9.8;  % jimmyds said 2mg
     
     modelParams.gen_traj = 1;
     modelParams.viz = 0;
@@ -36,7 +36,7 @@ function modelParams=setParams()
     modelParams.Q_lqr = eye(12)*10;  % SUS
     modelParams.mpc_steps = 10;
     modelParams.goal = [1.5;0.5;2;0;0;0;0;0;0;0;0;0];
-    modelParams.nom = [-1.5;-0.5;2;0;0;0;0;0;0;0;0;0];
+    modelParams.nom = [1.0;0.5;2;0;0;0;0;0;0;0;0;0];
     
 %     % waypoints params
     modelParams.wp_bool=0;

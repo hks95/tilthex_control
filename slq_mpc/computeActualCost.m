@@ -10,7 +10,8 @@ function J=computeActualCost(actual_traj,desired_traj,modelParams)
     J = x_diff(:,end)'*modelParams.Qf*x_diff(:,end);
     for inst_iter=1:modelParams.N-1
         J = J + x_diff(:,inst_iter)'*modelParams.Qt*x_diff(:, inst_iter)...
-            +(u_diff(inst_iter)-u_diff(inst_iter+1))'*modelParams.Rt*(u_diff(inst_iter)-u_diff(inst_iter+1));
+            +(u_diff(inst_iter)-u_diff(inst_iter+1))'*modelParams.Rt*(u_diff(inst_iter)- ...
+            u_diff(inst_iter+1));
 %         if modelParams.wp_bool
 %              wp=init_waypoints(modelParams); %added by Andrew
 %             J=J+waypointCost(actual_traj.x(:,inst_iter),inst_iter*modelParams.dt,wp,modelParams);

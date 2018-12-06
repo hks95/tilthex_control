@@ -128,7 +128,7 @@ while max_iter < 100
     end
     
     % linearize the dynamics
-    [A, B] = linDynamics(modelParams,nom_traj,'discrete'); %TODO: add J_x, J_u!!!
+    [A, B] = linDynamics(modelParams, nom_traj, 'discrete'); %TODO: add J_x, J_u!!!
 %     [A, B] = linDynamics(modelParams,nom_traj,'discrete', J_x, J_u); 
     
     %compute cost function
@@ -181,7 +181,7 @@ while max_iter < 100
         % [6x6][6x12]
         
         %l - scalar
-        l(:,ricatti_iter) = -inv(H)*g;
+        l(:,ricatti_iter) = -inv(H)*g
         % [6x6][6x1]
         % l = [6x1]
         
@@ -210,14 +210,15 @@ while max_iter < 100
             x_diff = act_traj.x(:,sim_iter) - nom_traj.x(:,sim_iter);
             
             % I think here wrapToPi should not be done
-            act_traj.u(:,sim_iter) = nom_traj.u(:,sim_iter)+alpha*l(:,sim_iter)+...
-                K(:,:,sim_iter)*(x_diff);
+            act_traj.u(:,sim_iter) = nom_traj.u(:,sim_iter) + ...
+                                     alpha*l(:,sim_iter) + K(:,:,sim_iter)*(x_diff);
             if abs(act_traj.u(sim_iter)) > modelParams.u_lim
                 act_traj.u(sim_iter) = sign(act_traj.u(sim_iter))*modelParams.u_lim;
             end
-            
+
             [~, act_traj.x(:,sim_iter+1)] = tilthex_dynamics(act_traj.x(:,sim_iter),...
                 act_traj.u(:,sim_iter), modelParams);
+            act_traj.x(:,sim_iter+1)
         end
         
         act_traj.u(:,modelParams.N) = 0;
