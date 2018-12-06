@@ -166,7 +166,7 @@ classdef tilthex < handle
             % the world
             obj.state = hex_settings.initial_state;            
 %             obj.arm_state = hex_settings.arm_initial_state;           
-            obj.desired_state = desired_state;
+%             obj.desired_state = waypoints;
             
 %             drawArm(obj);
             

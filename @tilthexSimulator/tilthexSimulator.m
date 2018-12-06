@@ -16,7 +16,9 @@ classdef tilthexSimulator < handle
         pos_control_freq       % scalar, frequency of position control
         pos_control_timer      % scalar, timer for position control event
         
-        waypoints          % struct, record the planned state of trajectory planner
+        reached_waypoint
+        waypoints
+        desired_state          % struct, record the planned state of trajectory planner
         curr_state             % current state of tilthex 
         control_input          % struct, record the designed input from the controller
 
@@ -33,7 +35,8 @@ classdef tilthexSimulator < handle
             % Plot the waypoints in the figure
             for i=1:size(waypoints,1)      
                 pt = [0 1 0;1 0 0;0 0 -1] * waypoints(i,:)';
-                scatter3(obj.world_axe_handle, pt(1), pt(2), pt(3), 25, 'c*');
+                scatter3(obj.world_axe_handle, pt(1), pt(2), pt(3), 25, 'b*');
+                hold on
                 % scatter3(obj.world_axe_handle, desired_state.desired_position(1,1), desired_state.desired_position(2,1), desired_state.desired_position(3,1),'c*');
             end
             
@@ -62,7 +65,7 @@ classdef tilthexSimulator < handle
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
             obj.waypoints = waypoints; 
-            
+            obj.reached_waypoint = zeros(size(waypoints,1),1);
             % Add function handles to the different events
             addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
             addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);

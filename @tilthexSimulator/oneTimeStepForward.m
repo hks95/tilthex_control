@@ -19,6 +19,33 @@ obj.curr_state.roll        = obj.robot.state.roll;
 %                       Waypoint selection
 %===================================================================
 
+% find first unvisited waypoint and assign it to desired state
+if obj.reached_waypoint(1)==0
+    idx = 1;
+else
+    idx = find(obj.reached_waypoint==0,1,'first');
+    if isempty(idx)
+        % reset all waypoints to 0 to loop the trajectory
+        obj.reached_waypoint(:,1) = 0;
+        idx = 1;
+    end
+end
+
+obj.desired_state.desired_position   = obj.waypoints(idx,:)';
+obj.desired_state.desired_linear_vel = [0;0;0]; %come to stop
+obj.desired_state.desired_linear_acc = [0;0;0]; %come to stop
+obj.desired_state.desired_yaw        = 0; %never yaw
+
+if norm(obj.curr_state.position(1:2)-obj.desired_state.desired_position(1:2))<0.1 && abs(obj.curr_state.position(3)-obj.desired_state.desired_position(3))<0.1
+    obj.reached_waypoint(idx)=1;
+end
+
+fprintf('waypoint %d    ',idx);
+
+obj.desired_state.desired_position   = obj.waypoints(idx,:)';
+obj.desired_state.desired_linear_vel = [0;0;0]; %come to stop
+obj.desired_state.desired_linear_acc = [0;0;0]; %come to stop
+obj.desired_state.desired_yaw        = 0; %never yaw 
 
 %===================================================================
 %                           Control

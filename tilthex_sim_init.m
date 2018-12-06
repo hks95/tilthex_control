@@ -111,6 +111,6 @@ sim_duration = 20;
 sim_settings.time_step = 0.01; 
 
 % view points
-view_point = [-2 2;-2 2;-2 2];
+view_point = [-3 3;-3 3;-1 3];
 % Create an object of the simulator
 my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,waypoints);
