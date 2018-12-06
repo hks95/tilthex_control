@@ -91,7 +91,7 @@ for i = 2:size(x_next,2)
 
     % Dynamics of the quadrotor
     dot_position     = state.linear_vel;
-    dot_linear_vel   = g*[0 0 1]' + 1/modelParams.m*state.R*(Thrust); %in world frame
+    dot_linear_vel   = g*[0 0 -1]' + 1/modelParams.m*state.R*(Thrust); %in world frame. Thrust must be negative!
 
     % eta_mat= [1 sin(Phi)*tan(The) cos(Phi)*tan(The);0 cos(Phi) - sin(Phi);0 sin(Phi)/cos(The) cos(Phi)/cos(The)];
 
@@ -99,7 +99,7 @@ for i = 2:size(x_next,2)
     dot_R            = state.R * skew_angular_vel;
 
     dot_attitude = [1 sin(state.roll)*tan(state.pitch) cos(state.roll)*tan(state.pitch); 0 cos(state.roll) -sin(state.roll); 0 sin(state.roll)/cos(state.pitch) cos(state.roll)/cos(state.pitch)] * state.angular_vel; 
-    dot_angular_vel  = modelParams.inertia_tensor \ (-cross(state.angular_vel,modelParams.inertia_tensor*state.angular_vel)); 
+    dot_angular_vel  = modelParams.inertia_tensor \ (-cross(state.angular_vel,modelParams.inertia_tensor*state.angular_vel)+M_thrust); 
 
 
     % Compute the state of the quadrotor at the next time step using forward

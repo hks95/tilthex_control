@@ -16,7 +16,7 @@ function [actTraj]=realPendDynamics(time, initial_state, nomTraj, u_ff, u_fb, mo
         actTraj.u(fwd_iter) = nomTraj.u(fwd_iter) + u_ff(:,fwd_iter) + ...
                               u_fb(fwd_iter,:)*(actTraj.x(:,fwd_iter) - ...
                               nomTraj.x(:,fwd_iter));
-        [~,actTraj.x(:,fwd_iter+1)] = simplePendDynamics(actTraj.x(:,fwd_iter),actTraj.u(fwd_iter),modelParams);
+        [~,actTraj.x(:,fwd_iter+1)] = tilthex_dynamics(actTraj.x(:,fwd_iter),actTraj.u(fwd_iter),modelParams);
         if abs(actTraj.u(fwd_iter))>modelParams.u_lim
             actTraj.u(fwd_iter)=sign(actTraj.u(fwd_iter))*modelParams.u_lim;
         end
