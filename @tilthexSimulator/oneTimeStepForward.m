@@ -16,29 +16,9 @@ obj.curr_state.pitch       = obj.robot.state.pitch;
 obj.curr_state.roll        = obj.robot.state.roll;
 
 %===================================================================
-%                       Trajectory Planning
+%                       Waypoint selection
 %===================================================================
 
-% obj.traj_plan_timer = obj.traj_plan_timer + obj.time_step;
-% if obj.traj_plan_timer > 1/obj.traj_plan_freq - 1e-10
-
-%     traj_plan_data = planner.evntData(obj.time, obj.curr_state);
-%     notify(obj, 'trajPlanEvnt', traj_plan_data);
-%     obj.traj_plan_timer = 0;
-
-    % Set the entries of the desired state
-%     obj.desired_state.time_stamp         = obj.time;
-%     obj.desired_state.desired_yaw        = traj_plan_data.desired_yaw;
-%     obj.desired_state.desired_position   = traj_plan_data.desired_position;
-%     obj.desired_state.desired_linear_vel = traj_plan_data.desired_linear_vel;
-%     obj.desired_state.desired_linear_acc = traj_plan_data.desired_linear_acc;
-
-% end
-
-% obj.desired_state.desired_yaw        = 0;
-% obj.desired_state.desired_position   = [1.5;-0.5;-1.5];
-% obj.desired_state.desired_linear_vel = [0;0;0];
-% obj.desired_state.desired_linear_acc = [0;0;0];
 
 %===================================================================
 %                           Control
@@ -76,6 +56,11 @@ if obj.atti_control_timer > 1/obj.atti_control_freq - 1e-10
     obj.control_input.torque            = atti_control_data.torque;
 
 end
+
+% Mixer 
+% Computes the rotor speeds for low level control
+% include if there is motor controller
+% obj.robot.mixer(obj.control_input);
 
 % Dynamics
 % Compute the state of the tilhex at the next step

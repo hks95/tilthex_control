@@ -16,7 +16,7 @@ classdef tilthexSimulator < handle
         pos_control_freq       % scalar, frequency of position control
         pos_control_timer      % scalar, timer for position control event
         
-        desired_state          % struct, record the planned state of trajectory planner
+        waypoints          % struct, record the planned state of trajectory planner
         curr_state             % current state of tilthex 
         control_input          % struct, record the designed input from the controller
 
@@ -24,17 +24,18 @@ classdef tilthexSimulator < handle
 
     methods
 
-        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point,desired_state)
+        function obj = tilthexSimulator(sim_settings,tilthex_settings,algo_settings,view_point,waypoints)
 
             % Create figure and axes handle for the world and the captured image
             obj.world_fig_handle = figure('Name', 'TiltHexrotor Simulator');
             obj.world_axe_handle = axes('Parent', obj.world_fig_handle);
 
-            % Scatter the features in the world
-%             pt = [1.5; -0.5; -1.5];
-            pt = [0 1 0;1 0 0;0 0 -1] * desired_state.desired_position;
-            scatter3(obj.world_axe_handle, pt(1), pt(2), pt(3), 25, 'c*');
-%             scatter3(obj.world_axe_handle, desired_state.desired_position(1,1), desired_state.desired_position(2,1), desired_state.desired_position(3,1),'c*');
+            % Plot the waypoints in the figure
+            for i=1:size(waypoints,1)      
+                pt = [0 1 0;1 0 0;0 0 -1] * waypoints(i,:)';
+                scatter3(obj.world_axe_handle, pt(1), pt(2), pt(3), 25, 'c*');
+                % scatter3(obj.world_axe_handle, desired_state.desired_position(1,1), desired_state.desired_position(2,1), desired_state.desired_position(3,1),'c*');
+            end
             
             set(obj.world_axe_handle, 'DataAspectRatio', [1 1 1], 'DataAspectRatioMode', 'manual');
             set(obj.world_axe_handle, 'XLimMode', 'manual', 'YLimMode', 'manual', 'ZLimMode', 'manual');
@@ -42,25 +43,26 @@ classdef tilthexSimulator < handle
             set(obj.world_axe_handle, 'NextPlot', 'add');
 
             % Create a quadrotor
-            obj.robot = tilthex(obj.world_axe_handle, tilthex_settings,desired_state);
+            obj.robot = tilthex(obj.world_axe_handle, tilthex_settings,waypoints);
 
             % Set intial time to 0
             % Each time the simulaton runs, the time increases by time_step
             obj.time = 0;
             obj.time_step = sim_settings.time_step;
 
-           obj.atti_control_freq = algo_settings.atti_control_freq;
-           obj.pos_control_freq  = algo_settings.pos_control_freq;
+            obj.atti_control_freq = algo_settings.atti_control_freq;
+            obj.pos_control_freq  = algo_settings.pos_control_freq;
            
-             % Initialize the timer for different events.
+            % Initialize the timer for different events.
             % The timer is set to the ceiling at the beginning so that all
             % the events are triggered at the beginning of the simulation.
-           obj.atti_control_timer = 1 / obj.atti_control_freq;
-           obj.pos_control_timer  = 1 / obj.pos_control_freq;
+            obj.atti_control_timer = 1 / obj.atti_control_freq;
+            obj.pos_control_timer  = 1 / obj.pos_control_freq;
            
             % Set the initial state for the quadrotor
             obj.curr_state = tilthex_settings.initial_state;
-            obj.desired_state = desired_state; 
+            obj.waypoints = waypoints; 
+            
             % Add function handles to the different events
             addlistener(obj, 'posControlEvnt',  algo_settings.pos_control_event_handler);
             addlistener(obj, 'attiControlEvnt', algo_settings.atti_control_event_handler);
@@ -81,9 +83,6 @@ classdef tilthexSimulator < handle
     end
 
     events
-
-        % State estimation event
-%         stateEstEvnt
 
         % Attitude control event
         attiControlEvnt

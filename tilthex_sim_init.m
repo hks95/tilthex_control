@@ -3,10 +3,12 @@
 % Properties of the hexrotor
 hex_settings.link_len       = 0.5;
 hex_settings.mass           = 2;
+
+% Inertia calculated assuming sphere of mass 2 and radius 0.25
 hex_settings.inertia_tensor = zeros(3, 3);
-hex_settings.inertia_tensor(1, 1) = 0.011; %hex_settings.mass/2 * hex_settings.link_len^2;
-hex_settings.inertia_tensor(2, 2) = 0.015; %hex_settings.mass/2 * hex_settings.link_len^2;
-hex_settings.inertia_tensor(3, 3) = 0.021; %hex_settings.mass   * hex_settings.link_len^2;
+hex_settings.inertia_tensor(1, 1) = 0.05; %hex_settings.mass/2 * hex_settings.link_len^2;
+hex_settings.inertia_tensor(2, 2) = 0.05; %hex_settings.mass/2 * hex_settings.link_len^2;
+hex_settings.inertia_tensor(3, 3) = 0.05; %hex_settings.mass   * hex_settings.link_len^2;
 
 %% Defining rotor frames
 alpha = 60;
@@ -64,9 +66,9 @@ hex_settings.initial_state.pitch       = 0;
 hex_settings.initial_state.roll        = 0;
 hex_settings.initial_state.angular_vel = [0 0 0]';
 hex_settings.initial_state.angular_acc = zeros(3, 1);
-hex_settings.initial_state.position    = [0 0 0]';
+hex_settings.initial_state.position    = [0 0 -1]';
 hex_settings.initial_state.linear_vel  = [0 0 0]'; %[0 1 0]';
-hex_settings.initial_state.linear_acc  = [0 0 1]'; %[-1 0 1]';
+hex_settings.initial_state.linear_acc  = [0 0 0]'; %[-1 0 1]';
 
 %% Intialize the controller
 
@@ -96,10 +98,8 @@ algo_settings.pos_control_event_handler  = @pos_controller.control;
 
 %% Planner
 % look at OneTimeStepForward
-desired_state.desired_yaw        = 0;
-desired_state.desired_position = [1.5;-0.5;-1.5];
-desired_state.desired_linear_vel = [0;0;0];
-desired_state.desired_linear_acc = [0;0;0];
+waypoints = choose_waypoints();
+
 %% Initialize the simulator
 
 % Total simulation time
@@ -113,4 +113,4 @@ sim_settings.time_step = 0.01;
 % view points
 view_point = [-2 2;-2 2;-2 2];
 % Create an object of the simulator
-my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,desired_state);
+my_simulator = tilthexSimulator(sim_settings, hex_settings,algo_settings,view_point,waypoints);

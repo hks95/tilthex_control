@@ -87,7 +87,7 @@ classdef tilthex < handle
 
     methods
 
-        function obj = tilthex(world_axes_handle, hex_settings,desired_state)
+        function obj = tilthex(world_axes_handle, hex_settings,waypoints)
 
             % The axes where the quadrotor is drawn
             obj.world_axes_handle = world_axes_handle;
@@ -175,13 +175,15 @@ classdef tilthex < handle
         % Draw the quadrobot on the WORLD axes
         [ ] = drawTilthex( obj )
 
+        [ ] = mixer(obj,input)
+        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % @brief: Compute the state of the quadrotor at the new time instance
         % @param dt   : time interval
         % @param input: contains 6 rotor speeds
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         [ ] = tilthex_dynamics( obj, dt, input )
-      
+        
         function [ ] = delete( obj )
 
 

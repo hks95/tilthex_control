@@ -1,13 +1,9 @@
 function [ ] = drawTilthex( obj )
-%DRAWQUADROTOR draws the tilt hexarotor in the figure
-%
+%DRAWTILTHEX draws the tilt hexarotor in the figure
 %
 
 % convert FRD to XYZ
 Rt = [0 1 0;1 0 0;0 0 -1];
-
-% Rt = eye(3);
-% Rt(3,3) = -1;
 
 % The orientation and translation of the body frame
 R = obj.state.R;
@@ -46,23 +42,10 @@ set(obj.z_rotor4_fig,'Parent',obj.world_axes_handle,'XData',[end_point4(1) rotor
 set(obj.z_rotor5_fig,'Parent',obj.world_axes_handle,'XData',[end_point5(1) rotor_end_point5(1)], 'YData', [end_point5(2) rotor_end_point5(2)], 'ZData', [end_point5(3) rotor_end_point5(3)], 'visible','on');
 set(obj.z_rotor6_fig,'Parent',obj.world_axes_handle,'XData',[end_point6(1) rotor_end_point6(1)], 'YData', [end_point6(2) rotor_end_point6(2)], 'ZData', [end_point6(3) rotor_end_point6(3)], 'visible','on');
 
-% % Update arm
-% end_point1 = R *Rt * obj.arm_link_body.joint1(1:3,1) + t;
-% end_point2 = R *Rt * obj.arm_link_body.joint2(1:3,1) + t;
-% end_point3 = R *Rt * obj.arm_link_body.joint3(1:3,1) + t;
-% end_point4 = R *Rt * obj.arm_link_body.joint4(1:3,1) + t;
-% end_point5 = R *Rt * obj.arm_link_body.joint5(1:3,1) + t;
-% 
-% set(obj.arm_link1,'Parent',obj.world_axes_handle,'XData',[t(1) end_point1(1)], 'YData', [t(2) end_point1(2)], 'ZData', [t(3) end_point1(3)], 'visible','on');
-% set(obj.arm_link2,'Parent',obj.world_axes_handle,'XData',[end_point1(1) end_point2(1)], 'YData', [end_point1(2) end_point2(2)], 'ZData', [end_point1(3) end_point2(3)], 'visible','on');
-% set(obj.arm_link3,'Parent',obj.world_axes_handle,'XData',[end_point2(1) end_point3(1)], 'YData', [end_point2(2) end_point3(2)], 'ZData', [end_point2(3) end_point3(3)], 'visible','on');
-% set(obj.arm_link4,'Parent',obj.world_axes_handle,'XData',[end_point1(1) end_point4(1)], 'YData', [end_point1(2) end_point4(2)], 'ZData', [end_point1(3) end_point4(3)], 'visible','on');
-% set(obj.arm_link5,'Parent',obj.world_axes_handle,'XData',[end_point3(1) end_point5(1)], 'YData', [end_point3(2) end_point5(2)], 'ZData', [end_point3(3) end_point5(3)], 'visible','on');
-
 % Update the body frame
-end_point1 = R * obj.x_axis_body + t;
-end_point2 = R * obj.y_axis_body + t;
-end_point3 = R * obj.z_axis_body + t;
+% end_point1 = R * obj.x_axis_body + t;
+% end_point2 = R * obj.y_axis_body + t;
+% end_point3 = R * obj.z_axis_body + t;
 
 % set(obj.x_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point1(1)], 'YData', [t(2) end_point1(2)], 'ZData', [t(3) end_point1(3)], 'visible','on');
 % set(obj.y_axis,'Parent',obj.world_axes_handle,'XData',[t(1) end_point2(1)], 'YData', [t(2) end_point2(2)], 'ZData', [t(3) end_point2(3)], 'visible','on');

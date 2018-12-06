@@ -1,7 +1,7 @@
 %control.m implements the attitude control algorithm
 
 function [  ] = control( obj, src, event_data )
-%CONTROL is a attitude controller
+%CONTROL is a attitude controller using PD 
 %
 
 % Desired attitude
@@ -22,15 +22,15 @@ angular_vel = event_data.angular_vel;
 
 
 % Compute the error of attitude and anguler velocity
-roll_err  = obj.shortestAngle(roll,  desired_roll);
-pitch_err = obj.shortestAngle(pitch, desired_pitch);
-yaw_err   = obj.shortestAngle(yaw,   desired_yaw);
+roll_err  = obj.shortestAngle(desired_roll,  roll);
+pitch_err = obj.shortestAngle(desired_pitch, pitch);
+yaw_err   = obj.shortestAngle(desired_yaw,   yaw);
 er        = [roll_err, pitch_err, yaw_err]';
 ew        = angular_vel;
 
 
 % Compute the torque
-torque    = -obj.Kr*er - obj.Kw*ew;
+torque    = obj.Kr*er + obj.Kw*ew;
 % absTorque = min([obj.maxAbsTorque abs(torque)], [], 2);
 % torque    = sign(torque).*absTorque;
 

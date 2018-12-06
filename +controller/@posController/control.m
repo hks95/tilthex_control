@@ -23,12 +23,6 @@ thrust    = obj.mass * R\(-g*[0 0 1]'+v);
 absThrust = min(obj.max_thrust,norm(thrust));
 thrust    = sign(thrust)*absThrust;
 
-% Compute the command acceleration vector
-% linear_acc_command = desired_linear_acc + obj.Kd*(desired_linear_vel-linear_vel) + obj.Kp*(desired_position-position);
-
-% Compute the thrust
-% thrust    = obj.mass * (g+linear_acc_command(3));
-
 % Filling the output
 event_data.desired_roll  = 0;
 event_data.desired_pitch = 0;
