@@ -4,10 +4,10 @@ function slqMPC_algo2
 % all variables-underscore
 close all
 modelParams=setParams();
-Jacobian_x = load('Jacobian_x.mat');
-Jacobian_u = load('Jacobian_u.mat');
-J_x = Jacobian_x.J_x;
-J_u = Jacobian_u.J_u;
+% Jacobian_x = load('Jacobian_x.mat');
+% Jacobian_u = load('Jacobian_u.mat');
+% J_x = Jacobian_x.J_x;
+% J_u = Jacobian_u.J_u;
 
 %% initialization
 actTraj.x=modelParams.x_init;
@@ -39,23 +39,11 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     % linearize dynamics about curr_state and curr_input
     curr_traj.x=curr_state;
     curr_traj.u=curr_input;
-    tic
-    [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete', J_x,J_u);
-%     [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete');
-    toc
 
-     
-%     [A_0,B_0]=linDynamics(modelParams,curr_traj);
-
-    s_A_0 = load('symb_A');
-    s_A_0 = s_A_0.A_0;
-    s_B_0 = load('symb_B');
-    s_B_0 = s_B_0.B_0;
+%     [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete', J_x,J_u);
+    [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete');
     
-    % compute LQR at linearized state
-    if (all(s_B_0== B_0)<=0)
-        disp("A and B matrixes don't match!! MAJOR SUS");
-    end
+    % compute LQR at linearized states
     [K_0,~]=lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);
 
     % initialize SLQ with LQR around current state 

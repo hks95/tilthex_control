@@ -8,6 +8,7 @@ Jacobian_x = load('Jacobian_x.mat');
 Jacobian_u = load('Jacobian_u.mat');
 J_x = Jacobian_x.J_x;
 J_u = Jacobian_u.J_u;
+
 %% initialization
 actTraj.x=modelParams.x_init;
 actTraj.u=zeros(6,1);
@@ -38,15 +39,12 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     % linearize dynamics about curr_state and curr_input
     curr_traj.x=curr_state;
     curr_traj.u=curr_input;
-    tic
-    [A_0,B_0]=linDynamics(modelParams,curr_traj,'discrete',J_x,J_u);
-    toc
-    A_0 = double(A_0);
-    B_0 = double(B_0);
-    
-%     [A_0,B_0]=linDynamics(modelParams,curr_traj);
 
+    [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete', J_x,J_u);    
     % compute LQR at linearized state
+    if (all(s_B_0== B_0)<=0)
+        disp("A and B matrixes don't match!! MAJOR SUS");
+    end
     [K_0,~]=lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);
 
     % initialize SLQ with LQR around current state 
@@ -55,8 +53,8 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     nom_traj.u=zeros(6,modelParams.N);
     
     for fwd_iter=1:modelParams.N-1
-        nom_traj.u(fwd_iter)=-K_0*(nom_traj.x(:,fwd_iter)-x_desired);
-        [~,nom_traj.x(:,fwd_iter+1)]=tilthex_dynamics(nom_traj.x(:,fwd_iter), nom_traj.u(fwd_iter), modelParams);
+        nom_traj.u(:,fwd_iter)=-K_0*(nom_traj.x(:,fwd_iter)-x_desired);
+        [~,nom_traj.x(:,fwd_iter+1)]=tilthex_dynamics(nom_traj.x(:,fwd_iter), nom_traj.u(:,fwd_iter), modelParams);
     end
     
     %% solve using SLQ

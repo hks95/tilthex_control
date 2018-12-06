@@ -1,7 +1,7 @@
 %% linearization of system dynamics at trajectory points
     %returns A 2x2xN B 2xN
-% function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti)
-function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti, Jacobian_x,Jacobian_u)
+function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti)
+% function [A,B]=linDynamics(modelParams,trajectory,dis_or_conti, Jacobian_x,Jacobian_u)
     
     syms x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11 x12 u1 u2 u3 u4 u5 u6
     % calculate A
