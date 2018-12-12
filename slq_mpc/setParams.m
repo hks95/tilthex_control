@@ -5,14 +5,14 @@ function modelParams=setParams()
     modelParams.m=2;
     modelParams.length=0.5;
     modelParams.inertia_tensor = zeros(3, 3);
-    modelParams.inertia_tensor(1, 1) = 0.011; %hex_settings.mass/2 * hex_settings.link_len^2;
-    modelParams.inertia_tensor(2, 2) = 0.015; %hex_settings.mass/2 * hex_settings.link_len^2;
-    modelParams.inertia_tensor(3, 3) = 0.021; %hex_settings.mass   * hex_settings.link_len^2;
-
+    modelParams.inertia_tensor(1, 1) = 0.05; %hex_settings.mass/2 * hex_settings.link_len^2;
+    modelParams.inertia_tensor(2, 2) = 0.05; %hex_settings.mass/2 * hex_settings.link_len^2;
+    modelParams.inertia_tensor(3, 3) = 0.05; %hex_settings.mass   * hex_settings.link_len^2;
+    
     modelParams.c=1;
     
     modelParams.dt=0.05;
-    modelParams.T = 1; %N=T/dt
+    modelParams.T = 10; %N=T/dt
     modelParams.N = modelParams.T/modelParams.dt+1;  % number of timesteps
     
     modelParams.Qt=eye(12);

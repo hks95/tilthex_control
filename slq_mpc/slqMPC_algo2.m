@@ -41,7 +41,7 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     curr_traj.u=curr_input;
 
 %     [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete', J_x,J_u);
-    [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete');
+    [A_0, B_0]=linDynamics(modelParams, curr_traj, 'discrete');
     
     % compute LQR at linearized states
     [K_0,~]=lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);

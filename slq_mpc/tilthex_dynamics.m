@@ -79,6 +79,8 @@ for i = 2:size(x_next,2)
     state.yaw =         x_next(9, i-1);
     state.angular_vel = x_next(10:12, i-1);
 
+    % psi = yaw, theta = pitch, phi = roll
+    
     state.R(1,1) = cos(state.yaw)*cos(state.pitch);
     state.R(1,2) = cos(state.yaw)*cos(state.pitch)*sin(state.roll) - sin(state.yaw)*cos(state.roll);
     state.R(1,3) = cos(state.yaw)*sin(state.pitch)*cos(state.roll) + sin(state.yaw)*sin(state.roll);
