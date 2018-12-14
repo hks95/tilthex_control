@@ -25,4 +25,4 @@ function [actTraj]=realPendDynamics(time, initial_state, nomTraj, u_ff, u_fb, mo
 
     % fig_pend=figure('Name','slq');
     % pend_animation(act_traj.x(1,:),fig_pend);
-    end
+end

@@ -11,8 +11,10 @@ function [x_dot,x_next ] = tilthex_dynamics(x, u, modelParams)
 % Gravity acceleration
 
 g = modelParams.g;
-Kt = 2.98e-06; Kd = 0.0382;
+Kt = 2.98e-06; 
+Kd = 0.0382;
 dt = modelParams.dt;
+
 % convert FRD to XYZ
 R1 = [cosd(90) sind(90) 0; ...
      -sind(90) cosd(90) 0; ...
@@ -80,7 +82,6 @@ for i = 2:size(x_next,2)
     state.angular_vel = x_next(10:12, i-1);
 
     % psi = yaw, theta = pitch, phi = roll
-    
     state.R(1,1) = cos(state.yaw)*cos(state.pitch);
     state.R(1,2) = cos(state.yaw)*cos(state.pitch)*sin(state.roll) - sin(state.yaw)*cos(state.roll);
     state.R(1,3) = cos(state.yaw)*sin(state.pitch)*cos(state.roll) + sin(state.yaw)*sin(state.roll);

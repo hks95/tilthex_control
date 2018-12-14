@@ -37,19 +37,19 @@ while norm(actTraj.x(:,end)-modelParams.goal)>1e-2
     %% initialize SLQ with controller
 
     % linearize dynamics about curr_state and curr_input
-    curr_traj.x=curr_state;
-    curr_traj.u=curr_input;
+    curr_traj.x = curr_state;
+    curr_traj.u = curr_input;
 
 %     [A_0, B_0]=linDynamics(modelParams,curr_traj,'discrete', J_x,J_u);
-    [A_0, B_0]=linDynamics(modelParams, curr_traj, 'discrete');
+    [A_0, B_0] = linDynamics(modelParams, curr_traj, 'discrete');
     
     % compute LQR at linearized states
-    [K_0,~]=lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);
+    [K_0,~] = lqr(A_0, B_0, modelParams.Q_lqr, modelParams.Rt);
 
     % initialize SLQ with LQR around current state 
-    x_desired=modelParams.goal;
-    nom_traj.x(:,1)=curr_state;
-    nom_traj.u=zeros(6,modelParams.N);
+    x_desired = modelParams.goal;
+    nom_traj.x(:,1) = curr_state;
+    nom_traj.u = zeros(6,modelParams.N);
     
     for fwd_iter=1:modelParams.N-1
         nom_traj.u(:,fwd_iter)=-K_0*(nom_traj.x(:,fwd_iter)-x_desired);

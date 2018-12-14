@@ -128,7 +128,7 @@ while max_iter < 100
     end
     
     % linearize the dynamics
-    [A, B] = linDynamics(modelParams, nom_traj, 'discrete'); %TODO: add J_x, J_u!!!
+    [A, B] = linDynamics(modelParams, nom_traj, 'discrete');
 %     [A, B] = linDynamics(modelParams,nom_traj,'discrete', J_x, J_u); 
     
     %compute cost function
